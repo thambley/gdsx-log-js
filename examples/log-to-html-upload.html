@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>log to html upload</title>
+		<style type="text/css">
+			
+		</style>
+		<script src="../lib/compleat-vendor-debug-parser.js"></script>
+		<script type="text/javascript">
+			
+			function tableData(cellData) {
+				var td = document.createElement('td');
+				td.appendChild(document.createTextNode(cellData));
+				return td;
+			}
+			
+			function convertLogArrayToHtml(logArray) {
+				var table = document.createElement('table')
+				var tableBody = document.createElement('tbody');
+				
+				for (var i=0; i < logArray.length; i++) {
+					var row = document.createElement('tr');
+					
+					var logItem = logArray[i];
+					row.appendChild(tableData(logItem.category));
+					row.appendChild(tableData(logItem.level));
+					row.appendChild(tableData(logItem.dateTime));
+					row.appendChild(tableData(logItem.text));
+					
+					tableBody.appendChild(row);
+				}
+				
+				table.appendChild(tableBody);
+				document.getElementById("outputdiv").appendChild(table);
+			}
+			
+			function processLogText(logText) {
+				if (logText.length > 0) {
+					var logArray = compleatVendorDebug.parseLog(logText);
+				}
+				convertLogArrayToHtml(logArray);
+			}
+		</script>
+	</head>
+	<body>
+		<form>
+			<input type="file" id="files" name="files" />
+		</form>
+		<div id="outputdiv">
+		</div>
+		<script type="text/javascript">
+			window.onload = function() {
+				//Check File API support
+				if (window.File && window.FileList && window.FileReader) {
+					var filesInput = document.getElementById("files");
+					filesInput.addEventListener("change", function(event) {
+						var files = event.target.files; //FileList object
+						var output = document.getElementById("result");
+
+						for (var i = 0; i < files.length; i++) {
+							var file = files[i];
+							//Only plain text
+							if (!file.type.match('plain')) continue;
+							var logReader = new FileReader();
+							logReader.addEventListener("load", function(event) {
+								var textFile = event.target;
+								processLogText(textFile.result);
+							});
+
+							//Read the text file
+							logReader.readAsText(file);
+						}
+
+					});
+				} else {
+					alert('The File APIs are not fully supported in this browser.');
+				}
+			}
+		</script>
+	</body>
+</html>
