@@ -4,42 +4,22 @@
 		<meta charset="utf-8" />
 		<title>log to html upload</title>
 		<style type="text/css">
-			
+			body {
+			  font-family:sans-serif;
+			}
+			table td, table th {
+			  padding:5px;
+			}
 		</style>
+		<script src="list.js"></script>
 		<script src="../lib/compleat-vendor-debug-parser.js"></script>
 		<script type="text/javascript">
-			
-			function tableData(cellData) {
-				var td = document.createElement('td');
-				td.appendChild(document.createTextNode(cellData));
-				return td;
-			}
-			
-			function convertLogArrayToHtml(logArray) {
-				var table = document.createElement('table')
-				var tableBody = document.createElement('tbody');
-				
-				for (var i=0; i < logArray.length; i++) {
-					var row = document.createElement('tr');
-					
-					var logItem = logArray[i];
-					row.appendChild(tableData(logItem.category));
-					row.appendChild(tableData(logItem.level));
-					row.appendChild(tableData(logItem.dateTime));
-					row.appendChild(tableData(logItem.text));
-					
-					tableBody.appendChild(row);
-				}
-				
-				table.appendChild(tableBody);
-				document.getElementById("outputdiv").appendChild(table);
-			}
-			
 			function processLogText(logText) {
 				if (logText.length > 0) {
 					var logArray = compleatVendorDebug.parseLog(logText);
 				}
-				convertLogArrayToHtml(logArray);
+				logTable.clear();
+				logTable.add(logArray);
 			}
 		</script>
 	</head>
@@ -47,9 +27,30 @@
 		<form>
 			<input type="file" id="files" name="files" />
 		</form>
-		<div id="outputdiv">
+		<div id="logtable">
+		<input type="text" class="search" placeholder="Search log" />
+		<table>
+			<thead>
+				  <tr>
+						<th class="sort" data-sort="category">Category</th>
+						<th class="sort" data-sort="level">Level</th>
+						<th class="sort" data-sort="dateTime">Date/Time</th>
+						<th class="sort" data-sort="text">Text</th>
+				  </tr>
+			</thead>
+			<tbody class="list">
+				<tr>
+					<td class="category"></td>
+					<td class="level"></td>
+					<td class="dateTime"></td>
+					<td class="text"></td>
+				</tr>
+			</tbody>
+		</table>
+			
 		</div>
 		<script type="text/javascript">
+			//http://jsfiddle.net/0GiS0/nDVYd/
 			window.onload = function() {
 				//Check File API support
 				if (window.File && window.FileList && window.FileReader) {
@@ -78,5 +79,14 @@
 				}
 			}
 		</script>
+		<script type="text/javascript">
+			//list
+			var options = {
+			  valueNames: [ 'category', 'level', 'dateTime', 'text' ]
+			};
+			// Init list
+			var logTable = new List('logtable', options);
+		</script>
 	</body>
 </html>
+
