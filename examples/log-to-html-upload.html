@@ -7,39 +7,10 @@
 			body {
 				font-family:sans-serif;
 			}
-			table td, table th {
-				padding:5px;
-				background-color:white;
-			}
-			table {
-				background-color:black;
-			}
-			.text {
-				white-space:pre;
-				font-family:courier new;
-			}
-			.pagination li {
-				display:inline-block;
-				padding:5px;
-			}
-			.pagination li.active {
-				border: 1px solid black;
-				border-radius: 6px;
-			}
-			.pagination li a.page{
-				text-decoration: none;
-				font-weight: bold;
-				font-color: black;
-			}
-			.search {
-				border:solid 1px #ccc;
-				border-radius: 5px;
-				padding:7px 14px;
-				margin-top:10px
-			}
 		</style>
-		<script src="list.js"></script>
-		<script src="list.pagination.js"></script>
+		<link href="./stylesheets/list.css" rel="stylesheet" type="text/css" />
+		<script src="./javascripts/list.js"></script>
+		<script src="./javascripts/list.pagination.js"></script>
 		<script src="../lib/compleat-vendor-debug-parser.js"></script>
 		<script type="text/javascript">
 			function processLogText(logText) {
@@ -58,7 +29,7 @@
 		<div id="logtable">
 		<input type="text" class="search" placeholder="Search log" />
 		<ul class="pagination"></ul>
-		<table>
+		<table class="listable sortable">
 			<thead>
 				  <tr>
 						<th class="sort" data-sort="worker">Worker</th>
