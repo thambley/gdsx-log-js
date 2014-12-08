@@ -7,6 +7,20 @@
 			body {
 				font-family:sans-serif;
 			}
+			#searchdiv { 
+				float: left;
+				margin-right: 10px;
+				padding-top: 6px;
+				margin-bottom: 10px;
+			}
+			#pagediv {
+				border:1px solid white;
+			}
+			#data {
+				clear:both;
+				overflow:auto;
+				width: 100%;
+			}
 		</style>
 		<!--http://www.listjs.com/-->
 		<link href="stylesheets/list.css" rel="stylesheet" type="text/css" />
@@ -19,10 +33,10 @@
 		<script src="../lib/compleat-vendor-debug-parser.js"></script>
 	</head>
 	<body>
-		<div style="width:100%; margin: 0 auto; padding: 0 0 40px;">
+		<div id="inputdiv" style="width:100%; margin: 0 auto; padding: 0 0 10px;">
 			<ul class="tabs" data-persist="true" id="tabslist">
-				<li id="tab1"><a href="#view1">Copy/Paste</a></li>
-				<li id="tab2"><a href="#view2">Upload</a></li>
+				<li id="tab1"><a id="tab1link" href="#view1">Copy/Paste</a></li>
+				<li id="tab2"><a id="tab2link" href="#view2">Upload</a></li>
 			</ul>
 			<div class="tabcontents">
 				<div id="view1">
@@ -43,38 +57,40 @@
 			</div>
 		</div>
 		<div id="logtable">
-			<input type="text" class="search" placeholder="Search log" />
-			<ul class="pagination"></ul>
-			<table class="listable sortable">
-				<thead>
-					  <tr>
-							<th class="sort" data-sort="category">Category</th>
-							<th class="sort" data-sort="level">Level</th>
-							<th class="sort" data-sort="dateTimeText">Date/Time</th>
-							<th class="sort" data-sort="text">Text</th>
-							<th class="sort" data-sort="worker">Worker</th>
-							<th class="sort" data-sort="workstation">Workstation</th>
-							<th class="sort" data-sort="workflow">Workflow</th>
-							<th class="sort" data-sort="process">Process</th>
-							<th class="sort" data-sort="routine">Routine</th>
-							<th class="sort" data-sort="pnrLocator">Locator</th>
-					  </tr>
-				</thead>
-				<tbody class="list">
-					<tr>
-						<td class="category"></td>
-						<td class="level"></td>
-						<td class="dateTimeText"></td>
-						<td class="text"></td>
-						<td class="worker"></td>
-						<td class="workstation"></td>
-						<td class="workflow"></td>
-						<td class="process"></td>
-						<td class="routine"></td>
-						<td class="pnrLocator"></td>
-					</tr>
-				</tbody>
-			</table>			
+			<div id="searchdiv"><label for="">Search:</label> <input type="text" class="search" placeholder="Search log" id="searchLog" /></div>
+			<div id="pagediv"><ul class="pagination"></ul></div>
+			<div id="data">
+				<table class="listable sortable">
+					<thead>
+						  <tr>
+								<th class="sort" data-sort="category">Category</th>
+								<th class="sort" data-sort="level">Level</th>
+								<th class="sort" data-sort="dateTimeText">Date/Time</th>
+								<th class="sort" data-sort="text">Text</th>
+								<th class="sort" data-sort="worker">Worker</th>
+								<th class="sort" data-sort="workstation">Workstation</th>
+								<th class="sort" data-sort="workflow">Workflow</th>
+								<th class="sort" data-sort="process">Process</th>
+								<th class="sort" data-sort="routine">Routine</th>
+								<th class="sort" data-sort="pnrLocator">Locator</th>
+						  </tr>
+					</thead>
+					<tbody class="list">
+						<tr>
+							<td class="category"></td>
+							<td class="level"></td>
+							<td class="dateTimeText"></td>
+							<td class="text"></td>
+							<td class="worker"></td>
+							<td class="workstation"></td>
+							<td class="workflow"></td>
+							<td class="process"></td>
+							<td class="routine"></td>
+							<td class="pnrLocator"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<script type="text/javascript">
 			//list
@@ -104,7 +120,7 @@
 				//Check File API support
 				if (window.File && window.FileList && window.FileReader) {
 					var filesInput = document.getElementById("files");
-					filesInput.addEventListener("change", function(event) {
+					addEvent(filesInput,"change", function(event) {
 						var files = event.target.files; //FileList object
 						var output = document.getElementById("result");
 
@@ -123,12 +139,48 @@
 						}
 
 					});
+					addEvent(document.getElementById('tab1link'),'click',resizeData);
+					addEvent(document.getElementById('tab2link'),'click',resizeData);
 				} else {
 					// hide file upload content:
 					document.getElementById('tab2').style.display = 'none';
+				}
+				resizeData();
+			}
+			
+			window.onresize = resizeData;
+			
+			function resizeData() {
+				window.setTimeout((new function(){resizeElementHeight(document.getElementById('data'))}), 50);
+			}
+			
+			//display handling
+			//http://stackoverflow.com/questions/33080/setting-the-height-of-a-div-dynamically
+			function resizeElementHeight(element) {
+				var height = 0;
+				var body = window.document.body;
+				if (window.innerHeight) {
+					height = window.innerHeight;
+				} else if (body.parentElement.clientHeight) {
+					height = body.parentElement.clientHeight;
+				} else if (body && body.clientHeight) {
+					height = body.clientHeight;
+				}
+				element.style.height = (((height - element.offsetTop) - 10) + "px");
+			}
+			
+			// add event cross browser
+			//http://stackoverflow.com/questions/10149963/adding-event-listener-cross-browser
+			function addEvent(elem, event, fn) {
+				if (elem.addEventListener) {
+					elem.addEventListener(event, fn, false);
+				} else {
+					elem.attachEvent("on" + event, function() {
+						// set the this pointer same as addEventListener when fn is called
+						return(fn.call(elem, window.event));   
+					});
 				}
 			}
 		</script>
 	</body>
 </html>
-
