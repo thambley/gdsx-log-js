@@ -54,6 +54,10 @@
 							<th class="sort" data-sort="text">Text</th>
 							<th class="sort" data-sort="worker">Worker</th>
 							<th class="sort" data-sort="workstation">Workstation</th>
+							<th class="sort" data-sort="workflow">Workflow</th>
+							<th class="sort" data-sort="process">Process</th>
+							<th class="sort" data-sort="routine">Routine</th>
+							<th class="sort" data-sort="pnrLocator">Locator</th>
 					  </tr>
 				</thead>
 				<tbody class="list">
@@ -64,6 +68,10 @@
 						<td class="text"></td>
 						<td class="worker"></td>
 						<td class="workstation"></td>
+						<td class="workflow"></td>
+						<td class="process"></td>
+						<td class="routine"></td>
+						<td class="pnrLocator"></td>
 					</tr>
 				</tbody>
 			</table>			
@@ -71,7 +79,7 @@
 		<script type="text/javascript">
 			//list
 			var options = {
-			  valueNames: [ 'worker','workstation','category', 'level', 'dateTimeText', 'text' ],
+			  valueNames: [ 'worker','workstation','category', 'level', 'dateTimeText', 'text', 'workflow', 'process', 'routine', 'pnrLocator' ],
 			  plugins: [ ListPagination({outerWindow:2}) ] 
 			};
 			// Init list
