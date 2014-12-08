@@ -32,22 +32,22 @@
 		<table class="listable sortable">
 			<thead>
 				  <tr>
-						<th class="sort" data-sort="worker">Worker</th>
-						<th class="sort" data-sort="workstation">Workstation</th>
 						<th class="sort" data-sort="category">Category</th>
 						<th class="sort" data-sort="level">Level</th>
-						<th class="sort" data-sort="dateTime">Date/Time</th>
+						<th class="sort" data-sort="dateTimeText">Date/Time</th>
 						<th class="sort" data-sort="text">Text</th>
+						<th class="sort" data-sort="worker">Worker</th>
+						<th class="sort" data-sort="workstation">Workstation</th>
 				  </tr>
 			</thead>
 			<tbody class="list">
 				<tr>
-					<td class="worker"></td>
-					<td class="workstation"></td>
 					<td class="category"></td>
 					<td class="level"></td>
-					<td class="dateTime"></td>
+					<td class="dateTimeText"></td>
 					<td class="text"></td>
+					<td class="worker"></td>
+					<td class="workstation"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -86,7 +86,7 @@
 		<script type="text/javascript">
 			//list
 			var options = {
-			  valueNames: [ 'worker','workstation','category', 'level', 'dateTime', 'text' ],
+			  valueNames: [ 'worker','workstation','category', 'level', 'dateTimeText', 'text' ],
 			  plugins: [ ListPagination({outerWindow:2}) ] 
 			};
 			// Init list

@@ -1,4 +1,7 @@
 /* tables */
+table tr:hover td {
+    background-color:#f2f2f2;
+}
 
 table.listable td, table.listable th {
 	padding:5px;
