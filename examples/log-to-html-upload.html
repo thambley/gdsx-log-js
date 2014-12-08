@@ -21,8 +21,8 @@
 	<body>
 		<div style="width:100%; margin: 0 auto; padding: 0 0 40px;">
 			<ul class="tabs" data-persist="true" id="tabslist">
-				<li><a href="#view1">Copy/Paste</a></li>
-				<li><a href="#view2">Upload</a></li>
+				<li id="tab1"><a href="#view1">Copy/Paste</a></li>
+				<li id="tab2"><a href="#view2">Upload</a></li>
 			</ul>
 			<div class="tabcontents">
 				<div id="view1">
@@ -117,7 +117,7 @@
 					});
 				} else {
 					// hide file upload content:
-					document.getElementById('tabslist').style.display = 'none';
+					document.getElementById('tab2').style.display = 'none';
 				}
 			}
 		</script>
