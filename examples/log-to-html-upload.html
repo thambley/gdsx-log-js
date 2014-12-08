@@ -8,11 +8,81 @@
 				font-family:sans-serif;
 			}
 		</style>
-		<link href="./stylesheets/list.css" rel="stylesheet" type="text/css" />
-		<script src="./javascripts/list.js"></script>
-		<script src="./javascripts/list.pagination.js"></script>
+		<!--http://www.listjs.com/-->
+		<link href="stylesheets/list.css" rel="stylesheet" type="text/css" />
+		<script src="javascripts/list.js"></script>
+		<script src="javascripts/list.pagination.js"></script>
+		<!--http://www.menucool.com/tabbed-content-->
+		<link href="stylesheets/tabcontent.css" rel="stylesheet" type="text/css" />
+		<script src="javascripts/tabcontent.js" type="text/javascript"></script>
+		<!--Travel Leaders Conetent-->
 		<script src="../lib/compleat-vendor-debug-parser.js"></script>
+	</head>
+	<body>
+		<div style="width:100%; margin: 0 auto; padding: 0 0 40px;">
+			<ul class="tabs" data-persist="true" id="tabslist">
+				<li><a href="#view1">Copy/Paste</a></li>
+				<li><a href="#view2">Upload</a></li>
+			</ul>
+			<div class="tabcontents">
+				<div id="view1">
+					<form onsubmit="processTextBox();return false;">
+						<div id="logdiv">
+							<textarea id="logtext" style="width:100%;min-height:75px;max-width:100%;"></textarea>
+						</div>
+						<div id="buttondiv">
+							<input name="submit" id="submit" type="submit" value="Convert" />
+						</div>
+					</form>
+				</div>
+				<div id="view2" style="display:none;">
+					<form>
+						<input type="file" id="files" name="files" />
+					</form>
+				</div>
+			</div>
+		</div>
+		<div id="logtable">
+			<input type="text" class="search" placeholder="Search log" />
+			<ul class="pagination"></ul>
+			<table class="listable sortable">
+				<thead>
+					  <tr>
+							<th class="sort" data-sort="category">Category</th>
+							<th class="sort" data-sort="level">Level</th>
+							<th class="sort" data-sort="dateTimeText">Date/Time</th>
+							<th class="sort" data-sort="text">Text</th>
+							<th class="sort" data-sort="worker">Worker</th>
+							<th class="sort" data-sort="workstation">Workstation</th>
+					  </tr>
+				</thead>
+				<tbody class="list">
+					<tr>
+						<td class="category"></td>
+						<td class="level"></td>
+						<td class="dateTimeText"></td>
+						<td class="text"></td>
+						<td class="worker"></td>
+						<td class="workstation"></td>
+					</tr>
+				</tbody>
+			</table>			
+		</div>
 		<script type="text/javascript">
+			//list
+			var options = {
+			  valueNames: [ 'worker','workstation','category', 'level', 'dateTimeText', 'text' ],
+			  plugins: [ ListPagination({outerWindow:2}) ] 
+			};
+			// Init list
+			var logTable = new List('logtable', options);
+			
+			// GDSX Log handling
+			function processTextBox() {
+				processLogText(document.getElementById('logtext').value);
+			}
+			
+			// utility function to process log text
 			function processLogText(logText) {
 				if (logText.length > 0) {
 					var logArray = compleatVendorDebug.parseLog(logText);
@@ -20,40 +90,7 @@
 				logTable.clear();
 				logTable.add(logArray);
 			}
-		</script>
-	</head>
-	<body>
-		<form>
-			<input type="file" id="files" name="files" />
-		</form>
-		<div id="logtable">
-		<input type="text" class="search" placeholder="Search log" />
-		<ul class="pagination"></ul>
-		<table class="listable sortable">
-			<thead>
-				  <tr>
-						<th class="sort" data-sort="category">Category</th>
-						<th class="sort" data-sort="level">Level</th>
-						<th class="sort" data-sort="dateTimeText">Date/Time</th>
-						<th class="sort" data-sort="text">Text</th>
-						<th class="sort" data-sort="worker">Worker</th>
-						<th class="sort" data-sort="workstation">Workstation</th>
-				  </tr>
-			</thead>
-			<tbody class="list">
-				<tr>
-					<td class="category"></td>
-					<td class="level"></td>
-					<td class="dateTimeText"></td>
-					<td class="text"></td>
-					<td class="worker"></td>
-					<td class="workstation"></td>
-				</tr>
-			</tbody>
-		</table>
 			
-		</div>
-		<script type="text/javascript">
 			//http://jsfiddle.net/0GiS0/nDVYd/
 			window.onload = function() {
 				//Check File API support
@@ -79,18 +116,10 @@
 
 					});
 				} else {
-					alert('The File APIs are not fully supported in this browser.');
+					// hide file upload content:
+					document.getElementById('tabslist').style.display = 'none';
 				}
 			}
-		</script>
-		<script type="text/javascript">
-			//list
-			var options = {
-			  valueNames: [ 'worker','workstation','category', 'level', 'dateTimeText', 'text' ],
-			  plugins: [ ListPagination({outerWindow:2}) ] 
-			};
-			// Init list
-			var logTable = new List('logtable', options);
 		</script>
 	</body>
 </html>

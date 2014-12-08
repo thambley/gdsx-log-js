@@ -1,5 +1,5 @@
 /* tables */
-table tr:hover td {
+table.listable tr:hover td {
     background-color:#f2f2f2;
 }
 
