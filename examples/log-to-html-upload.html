@@ -63,6 +63,7 @@
 				<table class="listable sortable">
 					<thead>
 						  <tr>
+								<th class="sort" data-sort="lineNumber">Line</th>
 								<th class="sort" data-sort="worker">Worker</th>
 								<th class="sort" data-sort="workstation">Workstation</th>
 								<th class="sort" data-sort="workflow">Workflow</th>
@@ -77,6 +78,7 @@
 					</thead>
 					<tbody class="list">
 						<tr>
+							<td class="lineNumber"></td>
 							<td class="worker"></td>
 							<td class="workstation"></td>
 							<td class="workflow"></td>
@@ -95,7 +97,7 @@
 		<script type="text/javascript">
 			//list
 			var options = {
-			  valueNames: [ 'worker','workstation','category', 'level', 'dateTimeText', 'text', 'workflow', 'process', 'routine', 'pnrLocator' ],
+			  valueNames: [ 'lineNumber', 'worker','workstation','category', 'level', 'dateTimeText', 'text', 'workflow', 'process', 'routine', 'pnrLocator' ],
 			  plugins: [ ListPagination({outerWindow:2}) ] 
 			};
 			// Init list
