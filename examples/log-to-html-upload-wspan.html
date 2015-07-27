@@ -248,6 +248,7 @@
 				if (targ.tagName.toUpperCase() === 'TD') {
 					if (hasClass(targ, 'text') && (targ.textContent.length > 3) && (targ.textContent.substring(0,3) === 'DIR')) {
 						convertDIR(targ.textContent);
+						highlightPopupCell(targ);
 						popup.open();
 						window.setTimeout(resizePopupBody, 50);
 					}
@@ -272,6 +273,16 @@
 			}
 			
 			addEvent(document.getElementById('logtable'), 'click', showPopUp);
+			
+			var popupCell;
+			
+			function highlightPopupCell(newCell) {
+				if (popupCell) {
+					popupCell.style.color = newCell.style.color;
+				}
+				popupCell = newCell;
+				popupCell.style.color = 'blue';
+			}
 
 		</script>
 	</body>
