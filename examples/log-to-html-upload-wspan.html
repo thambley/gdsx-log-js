@@ -228,9 +228,6 @@
 					//xmlPre.appendChild(document.createTextNode(plainXML));
 					//outputNode.replaceChild(xmlPre, outputNode.lastChild);
 					outputNode.innerHTML = prettyXML;
-					
-					popup.open();
-					//window.setTimeout(function() {resizeElementHeight(document.getElementById('popup'))}, 50);
 				}
 			}
 			
@@ -251,8 +248,27 @@
 				if (targ.tagName.toUpperCase() === 'TD') {
 					if (hasClass(targ, 'text') && (targ.textContent.length > 3) && (targ.textContent.substring(0,3) === 'DIR')) {
 						convertDIR(targ.textContent);
+						popup.open();
+						window.setTimeout(resizePopupBody, 50);
 					}
 				}
+			}
+			
+			function resizePopupBody() {
+				var popupBody = document.getElementById('popup-body');
+				var popup = document.getElementById('popup');
+				popupHeight = popup.offsetHeight || popup.clientHeight;
+				var distance = 0;
+				var element = popupBody;
+				if (element.offsetParent) {
+					do {
+						distance += element.offsetTop;
+						element = element.offsetParent;
+					} while (element && (element != popup));
+				}
+				var bottomMargin = 30;
+				var newHeight = (popupHeight - distance - bottomMargin).toString() + 'px';
+				popupBody.style.height = newHeight;
 			}
 			
 			addEvent(document.getElementById('logtable'), 'click', showPopUp);

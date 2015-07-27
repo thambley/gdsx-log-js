@@ -23,7 +23,7 @@
 
   'use strict';
 
-  // Shortand
+  // Shorthand
   var win = window;
   var doc = document;
   var docEl = doc.documentElement;
