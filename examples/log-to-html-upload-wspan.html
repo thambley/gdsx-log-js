@@ -21,6 +21,17 @@
 				overflow:auto;
 				width: 100%;
 			}
+			#popup-link {
+				font: bold 11px Arial;
+				text-decoration: none;
+				background-color: #EEEEEE;
+				color: #333333;
+				padding: 2px 6px 2px 6px;
+				border-top: 1px solid #333333;
+				border-right: 1px solid #333333;
+				border-bottom: 1px solid #333333;
+				border-left: 1px solid #333333;
+			}
 		</style>
 		<!--http://www.listjs.com/-->
 		<link href="stylesheets/list.css" rel="stylesheet" type="text/css" />
@@ -111,6 +122,7 @@
 			  <button type="button" class="popup-close">&times;</button>
 			  <h3>DIR to XML</h3>
 			</div>
+			<div class="popup-body"><a id="popup-link">view raw</a></div>
 			<div id="popup-body" class="popup-body"></div>
 		  </div>
 		</div>
@@ -205,10 +217,16 @@
 				}
 			}
 			
+			function updateLink(xml) {
+				var link = document.getElementById('popup-link');
+				//link.href = 'data:text/xml;base64,' + btoa(xml);
+				link.href = 'data:text/xml,' + encodeURIComponent(xml);
+			}
+			
 			var popupEl = document.getElementById('popup');
 			var popup = new Popup(popupEl, {
-				width: 600,
-				height: 400
+				width: 800,
+				height: 600
 			});
 			
 			xmlBrush = new SyntaxHighlighter.brushes.Xml();
@@ -218,16 +236,14 @@
 					//DIR0DPN0000003720011P1P0001P1PQL00000001010101000000000000000102908370$00000000000144PNRQ3279P211 2ZOBAW.Y2FS11A*232O3219P15AACTNP14AATXP13AXSP14ACNVP14ACPYP15ADISCP14AEDTP14AEORP14AEOVP13AUSP14AFOPP18AFQA.4*QP13AFRP13AFTP13AGAP13AHAP13AIAP15AIRRMP13ANAP13AOAP14AOTSP13APAP15APCHRP15APCTCP14APTSP13ARAP15ARTNGP13ASAP14ASURP12ATP13ATLP13ATF0.125ROPTS2174IRRM11Y4LINE11Y00
 				
 					var DIRTree = wspanDIR.parseDIRMessage(DIRText);
-					//var stringPre = document.createElement('pre');
-					//stringPre.appendChild(document.createTextNode(DIRTree.toString()));
+					
 					var outputNode = document.getElementById("popup-body");
-					//outputNode.replaceChild(stringPre, outputNode.firstChild);
+
 					var plainXML = DIRTree.toXML();
+					updateLink(plainXML);
+					
 					var prettyXML = xmlBrush.getHtml(plainXML);
 					
-					//var xmlPre = document.createElement('pre');
-					//xmlPre.appendChild(document.createTextNode(plainXML));
-					//outputNode.replaceChild(xmlPre, outputNode.lastChild);
 					outputNode.innerHTML = prettyXML;
 				}
 			}
