@@ -119,6 +119,7 @@
 			};
 			// Init list
 			var logTable = new List('logtable', options);
+			logTable.on('updated', highlightXml);
 			
 			// GDSX Log handling
 			function processTextBox() {
@@ -139,21 +140,24 @@
 				}
 				logTable.clear();
 				logTable.add(logArray);
-				
+			}
+
+			function highlightXml() {
 				var textNodes = document.getElementsByClassName('text');
 				var xmlNodes = Array.prototype.filter.call(textNodes, function(node) {return node.childNodes[0].nodeType !== Node.TEXT_NODE});
 				xmlNodes.forEach(element => {
-					var pre = document.createElement('pre');
-					var code = document.createElement('code');
-					code.className = 'xml';
-					pre.appendChild(code);
-					var xml = document.createTextNode(prettyXml(element.innerHTML));
-					code.appendChild(xml);
-					element.removeChild(element.childNodes[0]);
-					element.appendChild(pre);
-					hljs.highlightBlock(code);
+					if (element.childNodes[0].tagName.toLowerCase() !== 'pre') {
+						var pre = document.createElement('pre');
+						var code = document.createElement('code');
+						code.className = 'xml';
+						pre.appendChild(code);
+						var xml = document.createTextNode(prettyXml(element.innerHTML));
+						code.appendChild(xml);
+						element.removeChild(element.childNodes[0]);
+						element.appendChild(pre);
+						hljs.highlightBlock(code);
+					}
 				});
-				// hljs.initHighlighting();
 			}
 			
 			//http://jsfiddle.net/0GiS0/nDVYd/
