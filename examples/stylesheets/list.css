@@ -25,7 +25,7 @@ table.listable {
 .pagination li a.page{
 	text-decoration: none;
 	font-weight: bold;
-	font-color: black;
+	color: black;
 }
 .search {
 	border:solid 1px #ccc;
