@@ -1,0 +1,76 @@
+form#filter .filter_form_field {
+    margin-bottom: 10px;
+    clear: both
+}
+
+form#filter input[type=text],
+form#filter input[type=email],
+form#filter input[type=number],
+form#filter input[type=url],
+form#filter input[type=tel],
+form#filter input[type=date],
+form#filter input[type=time],
+form#filter textarea {
+    /* width: calc(80% - 22px);*/
+    border: 1px solid #c9d0d6;
+    border-radius: 3px;
+    font-size: 0.95em;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    outline: none;
+    padding: 8px 10px 7px
+}
+
+form#filter .buttons {
+    margin-top: 15px
+}
+
+form#filter select {
+    width: 240px
+}
+
+form#filter a#apply_filters_btn {
+    border-radius: 200px;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 1.0em;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 12px;
+    margin-right: 3px;
+    padding: 7px 16px 6px;
+    text-decoration: none;
+    background-color: #838a90;
+    background-image: linear-gradient(180deg, #838a90, #414549);
+    text-shadow: #000 0 1px 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 0 0px rgba(255, 255, 255, 0.2) inset;
+    border: solid 1px #484e53;
+    border-color: #484e53;
+    border-top-color: #616a71;
+    border-right-color: #484e53;
+    border-bottom-color: #363b3f;
+    border-left-color: #484e53;
+    color: #efefef;
+    cursor: pointer
+}
+
+form#filter a#clear_filters_btn {
+    border-radius: 200px;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 1.0em;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 12px;
+    margin-right: 3px;
+    padding: 7px 16px 6px;
+    text-decoration: none;
+    background-color: #FFFFFF;
+    background-image: linear-gradient(180deg, #fff, #E7E7E7);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 0 0 rgba(255, 255, 255, 0.8) inset;
+    border: solid 1px #c7c7c7;
+    border-color: #c7c7c7;
+    border-top-color: #d3d3d3;
+    border-right-color: #c7c7c7;
+    border-bottom-color: #c2c2c2;
+    border-left-color: #c7c7c7;
+    text-shadow: #fff 0 1px 0;
+    color: #5E6469
+}
