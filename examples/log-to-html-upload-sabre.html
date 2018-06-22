@@ -33,6 +33,10 @@
 	<!--https://flatpickr.js.org/-->
 	<link href="stylesheets/flatpickr.css" rel="stylesheet" type="text/css" />
 	<script src="javascripts/flatpickr.js" type="text/javascript"></script>
+	<!--https://joshuajohnson.co.uk/Choices/-->
+	<!--<link href="stylesheets/base.css" rel="stylesheet" type="text/css" />-->
+	<link href="stylesheets/choices.css" rel="stylesheet" type="text/css" />
+	<script src="javascripts/choices.js" type="text/javascript"></script>
 	<!--Travel Leaders Content-->
 	<script src="../lib/compleat-vendor-debug-parser.js"></script>
 </head>
@@ -307,7 +311,8 @@
 
 		function clearSearch() {
 			document.getElementById('q_search').value = '';
-			clearSelected(document.getElementById('q_column'));
+			columnChoices.removeActiveItems();
+			// clearSelected(document.getElementById('q_column'));
 			logTable.search(); // Show all items in list
 		}
 
@@ -319,6 +324,14 @@
 			enableTime: true,
 			dateFormat: "Y-m-d H:i"
 		});
+
+		const columnChoices = new Choices('#q_column', { removeItemButton: true })
+		const workerChoices = new Choices('#q_worker');
+		const workstationChoices = new Choices('#q_workstation');
+		const workflowChoices = new Choices('#q_workflow');
+		const processChoices = new Choices('#q_process');
+		const categoryChoices = new Choices('#q_category');
+		const levelChoices = new Choices('#q_level');
 
 		function removeOptions(selectbox) {
 			var i;
@@ -341,7 +354,26 @@
 			}
 		}
 
+		function destroyChoices() {
+			workerChoices.destroy();
+			workstationChoices.destroy();
+			workflowChoices.destroy();
+			processChoices.destroy();
+			categoryChoices.destroy();
+			levelChoices.destroy();
+		}
+
+		function initChoices() {
+			workerChoices.init();
+			workstationChoices.init();
+			workflowChoices.init();
+			processChoices.init();
+			categoryChoices.init();
+			levelChoices.init();
+		}
+
 		function buildFilters(logTable) {
+			destroyChoices();
 			let workers = [...new Set(logTable.map(item => item.worker))];
 			populateSelect('q_worker', workers.sort());
 			let workstations = [...new Set(logTable.map(item => item.workstation))];
@@ -354,6 +386,7 @@
 			populateSelect('q_category', categories.sort());
 			let levels = [...new Set(logTable.map(item => item.level))];
 			populateSelect('q_level', levels.sort());
+			initChoices();
 		}
 
 		function getIntegerValue(elementId) {
@@ -446,6 +479,7 @@
 		}
 
 		function clearFilters() {
+			destroyChoices();
 			document.getElementById('q_line_number_gteq').value = '';
 			document.getElementById('q_line_number_lteq').value = '';
 			document.getElementById('q_worker').value = 'All';
@@ -455,7 +489,8 @@
 			document.getElementById('q_category').value = 'All';
 			document.getElementById('q_level').value = 'All';
 			document.getElementById('q_date_time_gteq').value = '';
-			document.getElementById('q_date_time_lteq').value = '';			
+			document.getElementById('q_date_time_lteq').value = '';
+			initChoices();
 			logTable.filter();
 		}
 		/** end filters **/
