@@ -10,13 +10,6 @@
 			font-size: 12px;
 		}
 
-		#searchdiv {
-			float: left;
-			margin-right: 10px;
-			padding-top: 6px;
-			margin-bottom: 10px;
-		}
-
 		#pagediv {
 			border: 1px solid white;
 		}
@@ -28,6 +21,7 @@
 		}
 
 	</style>
+	<link href="stylesheets/search.css" rel="stylesheet" type="text/css" />
 	<link href="stylesheets/filter.css" rel="stylesheet" type="text/css" />
 	<!--http://www.listjs.com/-->
 	<link href="stylesheets/list.css" rel="stylesheet" type="text/css" />
@@ -74,8 +68,32 @@
 				</form>
 			</div>
 			<div id="searchview">
-				<label for="">Search:</label>
-				<input type="text" class="search" placeholder="Search log" id="searchLog" />
+				<form id="search">
+					<div class="string input optional stringish filter_form_field filter_string" id="q_search_input">
+						<label for="q_search" class="label">Search: </label>
+						<input type="text" class="search" placeholder="Search log" name="q[search]" id="q_search" />
+					</div>
+					<div class="select input optional filter_form_field filter_select" id="q_column_input">
+						<label for="q_column" class="label">Column(s): </label>
+						<select name="q[column]" id="q_column" multiple="multiple" size="5">
+							<option value="lineNumber">Line</option>
+							<option value="worker">Worker</option>
+							<option value="workstation">Workstation</option>
+							<option value="workflow">Workflow</option>
+							<option value="process">Process</option>
+							<option value="routine">Routine</option>
+							<option value="pnrLocator">Locator</option>
+							<option value="category">Category</option>
+							<option value="level">Level</option>
+							<option value="dateTimeText">Date/Time</option>
+							<option value="text">Text</option>
+						</select>
+					</div>
+					<div class="buttons">
+						<a id="apply_search_btn" href="#">Search</a>
+						<a id="clear_search_btn" href="#">Clear</a>
+					</div>
+				</form>
 			</div>
 			<div id="filterview">
 				<form id="filter">
@@ -91,14 +109,14 @@
 						</select>
 					</div>
 					<div class="select input optional filter_form_field filter_select" id="q_workstation_input">
-							<label for="q_workstation" class="label">Workstation</label>
-							<select name="q[workstation_eq]" id="q_workstation">
-								<option value="All">All</option>
-							</select>
-						</div>
+						<label for="q_workstation" class="label">Workstation</label>
+						<select name="q[workstation_eq]" id="q_workstation">
+							<option value="All">All</option>
+						</select>
+					</div>
 					<div class="buttons">
-						<a id="apply_filters_btn" href="#">Apply Filters</a>
-						<a id="clear_filters_btn" href="#">Clear Filters</a>
+						<a id="apply_filters_btn" href="#">Filter</a>
+						<a id="clear_filters_btn" href="#">Clear</a>
 					</div>
 				</form>
 			</div>
@@ -208,6 +226,8 @@
 			}
 			addEvent(document.getElementById('apply_filters_btn'), 'click', applyFilters);
 			addEvent(document.getElementById('clear_filters_btn'), 'click', clearFilters);
+			addEvent(document.getElementById('apply_search_btn'), 'click', applySearch);
+			addEvent(document.getElementById('clear_search_btn'), 'click', clearSearch);
 			resizeData();
 		}
 
@@ -218,6 +238,49 @@
 				resizeElementHeight(document.getElementById('data'))
 			}, 50);
 		}
+
+		/** Search **/
+		// https://stackoverflow.com/questions/11821261/how-to-get-all-selected-values-from-select-multiple-multiple
+		function getSelectValues(select) {
+			var result = [];
+			var options = select && select.options;
+			var opt;
+
+			for (var i = 0, iLen = options.length; i < iLen; i++) {
+				opt = options[i];
+
+				if (opt.selected) {
+					result.push(opt.value || opt.text);
+				}
+			}
+			return result;
+		}
+
+		// https://stackoverflow.com/questions/12802739/deselect-selected-options-in-select-menu-with-multiple-and-optgroups
+		function clearSelected(select) {
+			var options = select && select.options;
+
+			for (var i = 0; i < options.length; i++) {
+				options[i].selected = false;
+			}
+		}
+
+		function applySearch() {
+			var columns = getSelectValues(document.getElementById('q_column'));
+			if (columns.length > 0) {
+				logTable.search(document.getElementById('q_search').value, columns);
+			} else {
+				logTable.search(document.getElementById('q_search').value);
+			}
+		}
+
+		function clearSearch() {
+			document.getElementById('q_search').value = '';
+			clearSelected(document.getElementById('q_column'));
+			logTable.search(); // Show all items in list
+		}
+
+		/** End search **/
 
 		/** filters **/
 		function removeOptions(selectbox) {
