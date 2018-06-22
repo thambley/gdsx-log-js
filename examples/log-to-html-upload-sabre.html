@@ -10,7 +10,7 @@
 			font-size: 12px;
 		}
 
-		#pagediv {
+		.pagediv {
 			border: 1px solid white;
 		}
 
@@ -70,11 +70,11 @@
 			<div id="searchview">
 				<form id="search">
 					<div class="string input optional stringish filter_form_field filter_string" id="q_search_input">
-						<label for="q_search" class="label">Search: </label>
+						<label for="q_search" class="label">Search:</label>
 						<input type="text" class="search" placeholder="Search log" name="q[search]" id="q_search" />
 					</div>
 					<div class="select input optional filter_form_field filter_select" id="q_column_input">
-						<label for="q_column" class="label">Column(s): </label>
+						<label for="q_column" class="label">Column(s):</label>
 						<select name="q[column]" id="q_column" multiple="multiple" size="5">
 							<option value="lineNumber">Line</option>
 							<option value="worker">Worker</option>
@@ -103,14 +103,26 @@
 						<input size="12" maxlength="10" placeholder="To" value="" type="number" name="q[line_number_lteq]" id="q_line_number_lteq">
 					</div>
 					<div class="select input optional filter_form_field filter_select" id="q_worker_input">
-						<label for="q_worker" class="label">Worker</label>
+						<label for="q_worker" class="label">Worker:</label>
 						<select name="q[worker_eq]" id="q_worker">
 							<option value="All">All</option>
 						</select>
 					</div>
 					<div class="select input optional filter_form_field filter_select" id="q_workstation_input">
-						<label for="q_workstation" class="label">Workstation</label>
+						<label for="q_workstation" class="label">Workstation:</label>
 						<select name="q[workstation_eq]" id="q_workstation">
+							<option value="All">All</option>
+						</select>
+					</div>
+					<div class="select input optional filter_form_field filter_select" id="q_workflow_input">
+						<label for="q_workflow" class="label">Workflow:</label>
+						<select name="q[workflow_eq]" id="q_workflow">
+							<option value="All">All</option>
+						</select>
+					</div>
+					<div class="select input optional filter_form_field filter_select" id="q_process_input">
+						<label for="q_process" class="label">Process:</label>
+						<select name="q[process_eq]" id="q_process">
 							<option value="All">All</option>
 						</select>
 					</div>
@@ -123,7 +135,7 @@
 		</div>
 	</div>
 	<div id="logtable">
-		<div id="pagediv">
+		<div class="pagediv">
 			<ul class="pagination"></ul>
 		</div>
 		<div id="data">
@@ -309,6 +321,10 @@
 			populateSelect('q_worker', workers.sort());
 			let workstations = [...new Set(logTable.map(item => item.workstation))];
 			populateSelect('q_workstation', workstations.sort());
+			let workflows = [...new Set(logTable.map(item => item.workflow))];
+			populateSelect('q_workflow', workflows.sort());
+			let processes = [...new Set(logTable.map(item => item.process))];
+			populateSelect('q_process', processes.sort());
 		}
 
 		function getIntegerValue(elementId) {
@@ -357,12 +373,16 @@
 			}
 			var workerFilter = selectFilter('q_worker');
 			var workstationFilter = selectFilter('q_workstation');
+			var workflowFilter = selectFilter('q_workflow');
+			var processFilter = selectFilter('q_process');
 			logTable.filter(function (item) {
 				itemValues = item.values();
 				var lineInBounds = lineFilter(itemValues.lineNumber);
 				var workerValid = workerFilter(itemValues.worker);
 				var workstationValid = workstationFilter(itemValues.workstation);
-				return lineInBounds && workerValid && workstationValid;
+				var workflowValid = workflowFilter(itemValues.workflow)
+				var processValid = processFilter(itemValues.process)
+				return lineInBounds && workerValid && workstationValid && workflowValid && processValid;
 			});
 		}
 
@@ -371,6 +391,8 @@
 			document.getElementById('q_line_number_lteq').value = '';
 			document.getElementById('q_worker').value = 'All';
 			document.getElementById('q_workstation').value = 'All';
+			document.getElementById('q_workflow').value = 'All';
+			document.getElementById('q_process').value = 'All';
 			logTable.filter();
 		}
 		/** end filters **/
