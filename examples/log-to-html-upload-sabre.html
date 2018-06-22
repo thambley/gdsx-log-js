@@ -55,6 +55,7 @@
 			<li id="tab4">
 				<a id="tab4link" href="#filterview">Filter</a>
 			</li>
+
 		</ul>
 		<div class="tabcontents">
 			<div id="copypasteview">
@@ -89,6 +90,12 @@
 							<option value="All">All</option>
 						</select>
 					</div>
+					<div class="select input optional filter_form_field filter_select" id="q_workstation_input">
+							<label for="q_workstation" class="label">Workstation</label>
+							<select name="q[workstation_eq]" id="q_workstation">
+								<option value="All">All</option>
+							</select>
+						</div>
 					<div class="buttons">
 						<a id="apply_filters_btn" href="#">Apply Filters</a>
 						<a id="clear_filters_btn" href="#">Clear Filters</a>
@@ -237,6 +244,8 @@
 		function buildFilters(logTable) {
 			let workers = [...new Set(logTable.map(item => item.worker))];
 			populateSelect('q_worker', workers.sort());
+			let workstations = [...new Set(logTable.map(item => item.workstation))];
+			populateSelect('q_workstation', workstations.sort());
 		}
 
 		function getIntegerValue(elementId) {
@@ -284,11 +293,13 @@
 				lineFilter = betweenFilter(lineGreaterThan, lineLessThan);
 			}
 			var workerFilter = selectFilter('q_worker');
+			var workstationFilter = selectFilter('q_workstation');
 			logTable.filter(function (item) {
 				itemValues = item.values();
 				var lineInBounds = lineFilter(itemValues.lineNumber);
 				var workerValid = workerFilter(itemValues.worker);
-				return lineInBounds && workerValid;
+				var workstationValid = workstationFilter(itemValues.workstation);
+				return lineInBounds && workerValid && workstationValid;
 			});
 		}
 
@@ -296,6 +307,7 @@
 			document.getElementById('q_line_number_gteq').value = '';
 			document.getElementById('q_line_number_lteq').value = '';
 			document.getElementById('q_worker').value = 'All';
+			document.getElementById('q_workstation').value = 'All';
 			logTable.filter();
 		}
 		/** end filters **/
