@@ -325,13 +325,21 @@
 			dateFormat: "Y-m-d H:i"
 		});
 
-		const columnChoices = new Choices('#q_column', { removeItemButton: true })
-		const workerChoices = new Choices('#q_worker');
-		const workstationChoices = new Choices('#q_workstation');
-		const workflowChoices = new Choices('#q_workflow');
-		const processChoices = new Choices('#q_process');
-		const categoryChoices = new Choices('#q_category');
-		const levelChoices = new Choices('#q_level');
+		const columnChoices = new Choices('#q_column', { removeItemButton: true, duplicateItems: false })
+		const workerChoices = new Choices('#q_worker', { duplicateItems: false });
+		const workstationChoices = new Choices('#q_workstation', { duplicateItems: false });
+		const workflowChoices = new Choices('#q_workflow', { duplicateItems: false });
+		const processChoices = new Choices('#q_process', { duplicateItems: false });
+		const categoryChoices = new Choices('#q_category', { duplicateItems: false });
+		const levelChoices = new Choices('#q_level', { duplicateItems: false });
+
+		function populateChoices(choiceBox, values) {
+			choices = values.map((val) => {
+				return { value: val.toString(), label: val.toString(), selected: false };
+			});
+			choices.unshift({ value: 'All', label: 'All', selected: true });
+			choiceBox.setChoices(choices, 'value', 'label', true);
+		}
 
 		function removeOptions(selectbox) {
 			var i;
@@ -340,53 +348,44 @@
 			}
 		}
 
+		function addOption(select, text, value, selected) {
+			var el = document.createElement("option");
+			el.textContent = text;
+			el.value = value;
+			el.selected = selected;
+			select.appendChild(el);
+		}
+
 		function populateSelect(elementId, values) {
 			var selectBox = document.getElementById(elementId);
 			removeOptions(selectBox);
-			values.unshift('All');
+			addOption(selectBox, 'All', 'All', true);
 
 			for (var i = 0; i < values.length; i++) {
 				var opt = values[i];
-				var el = document.createElement("option");
-				el.textContent = opt;
-				el.value = opt;
-				selectBox.appendChild(el);
+				addOption(selectBox, opt, opt, false);
 			}
 		}
 
-		function destroyChoices() {
-			workerChoices.destroy();
-			workstationChoices.destroy();
-			workflowChoices.destroy();
-			processChoices.destroy();
-			categoryChoices.destroy();
-			levelChoices.destroy();
-		}
-
-		function initChoices() {
-			workerChoices.init();
-			workstationChoices.init();
-			workflowChoices.init();
-			processChoices.init();
-			categoryChoices.init();
-			levelChoices.init();
-		}
-
 		function buildFilters(logTable) {
-			destroyChoices();
-			let workers = [...new Set(logTable.map(item => item.worker))];
-			populateSelect('q_worker', workers.sort());
-			let workstations = [...new Set(logTable.map(item => item.workstation))];
-			populateSelect('q_workstation', workstations.sort());
-			let workflows = [...new Set(logTable.map(item => item.workflow))];
-			populateSelect('q_workflow', workflows.sort());
-			let processes = [...new Set(logTable.map(item => item.process))];
-			populateSelect('q_process', processes.sort());
-			let categories = [...new Set(logTable.map(item => item.category))];
-			populateSelect('q_category', categories.sort());
-			let levels = [...new Set(logTable.map(item => item.level))];
-			populateSelect('q_level', levels.sort());
-			initChoices();
+			let workers = [...new Set(logTable.map(item => item.worker))].sort();
+			populateSelect('q_worker', workers);
+			populateChoices(workerChoices, workers);
+			let workstations = [...new Set(logTable.map(item => item.workstation))].sort();
+			populateSelect('q_workstation', workstations);
+			populateChoices(workstationChoices, workstations);
+			let workflows = [...new Set(logTable.map(item => item.workflow))].sort();
+			populateSelect('q_workflow', workflows);
+			populateChoices(workflowChoices, workflows);
+			let processes = [...new Set(logTable.map(item => item.process))].sort();
+			populateSelect('q_process', processes);
+			populateChoices(processChoices, processes);
+			let categories = [...new Set(logTable.map(item => item.category))].sort();
+			populateSelect('q_category', categories);
+			populateChoices(categoryChoices, categories);
+			let levels = [...new Set(logTable.map(item => item.level))].sort();
+			populateSelect('q_level', levels);
+			populateChoices(levelChoices, levels);
 		}
 
 		function getIntegerValue(elementId) {
@@ -479,18 +478,22 @@
 		}
 
 		function clearFilters() {
-			destroyChoices();
 			document.getElementById('q_line_number_gteq').value = '';
 			document.getElementById('q_line_number_lteq').value = '';
 			document.getElementById('q_worker').value = 'All';
+			workerChoices.setValueByChoice('All');
 			document.getElementById('q_workstation').value = 'All';
+			workstationChoices.setValueByChoice('All');
 			document.getElementById('q_workflow').value = 'All';
+			workflowChoices.setValueByChoice('All');
 			document.getElementById('q_process').value = 'All';
+			processChoices.setValueByChoice('All');
 			document.getElementById('q_category').value = 'All';
+			categoryChoices.setValueByChoice('All');
 			document.getElementById('q_level').value = 'All';
+			levelChoices.setValueByChoice('All');
 			document.getElementById('q_date_time_gteq').value = '';
 			document.getElementById('q_date_time_lteq').value = '';
-			initChoices();
 			logTable.filter();
 		}
 		/** end filters **/
