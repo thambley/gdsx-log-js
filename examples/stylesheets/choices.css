@@ -4,7 +4,7 @@
 .choices {
   position: relative;
   margin-bottom: 24px;
-  font-size: 16px;
+  font-size: 12px;
 }
 
 .choices:focus {
@@ -132,8 +132,8 @@
   padding: 7.5px 7.5px 3.75px;
   border: 1px solid #DDDDDD;
   border-radius: 2.5px;
-  font-size: 14px;
-  min-height: 44px;
+  font-size: 12px;
+  min-height: 24px;
   overflow: hidden;
 }
 
@@ -250,7 +250,7 @@
 .choices__list--dropdown .choices__item {
   position: relative;
   padding: 10px;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 [dir="rtl"] .choices__list--dropdown .choices__item {
@@ -335,7 +335,7 @@
   display: inline-block;
   vertical-align: baseline;
   background-color: #f9f9f9;
-  font-size: 14px;
+  font-size: 12px;
   margin-bottom: 5px;
   border: 0;
   border-radius: 0;

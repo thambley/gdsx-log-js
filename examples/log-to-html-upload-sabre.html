@@ -75,11 +75,11 @@
 			</div>
 			<div id="searchview">
 				<form id="search">
-					<div class="string input optional stringish filter_form_field filter_string" id="q_search_input">
+					<div class="string input optional stringish search_form_field search_string" id="q_search_input">
 						<label for="q_search" class="label">Search:</label>
 						<input type="text" class="search" placeholder="Search log" name="q[search]" id="q_search" />
 					</div>
-					<div class="select input optional filter_form_field filter_select" id="q_column_input">
+					<div class="select input optional search_form_field search_select" id="q_column_input">
 						<label for="q_column" class="label">Column(s):</label>
 						<select name="q[column]" id="q_column" multiple="multiple" size="5">
 							<option value="lineNumber">Line</option>
@@ -256,8 +256,6 @@
 			} else {
 				// hide file upload content:
 				document.getElementById('tab2').style.display = 'none';
-				document.getElementById('tab3').style.display = 'none';
-				document.getElementById('tab4').style.display = 'none';
 			}
 			addEvent(document.getElementById('apply_filters_btn'), 'click', applyFilters);
 			addEvent(document.getElementById('clear_filters_btn'), 'click', clearFilters);
@@ -325,19 +323,42 @@
 			dateFormat: "Y-m-d H:i"
 		});
 
-		const columnChoices = new Choices('#q_column', { removeItemButton: true, duplicateItems: false })
-		const workerChoices = new Choices('#q_worker', { duplicateItems: false });
-		const workstationChoices = new Choices('#q_workstation', { duplicateItems: false });
-		const workflowChoices = new Choices('#q_workflow', { duplicateItems: false });
-		const processChoices = new Choices('#q_process', { duplicateItems: false });
-		const categoryChoices = new Choices('#q_category', { duplicateItems: false });
-		const levelChoices = new Choices('#q_level', { duplicateItems: false });
+		const columnChoices = new Choices('#q_column', {
+			removeItemButton: true,
+			duplicateItems: false
+		})
+		const workerChoices = new Choices('#q_worker', {
+			duplicateItems: false
+		});
+		const workstationChoices = new Choices('#q_workstation', {
+			duplicateItems: false
+		});
+		const workflowChoices = new Choices('#q_workflow', {
+			duplicateItems: false
+		});
+		const processChoices = new Choices('#q_process', {
+			duplicateItems: false
+		});
+		const categoryChoices = new Choices('#q_category', {
+			duplicateItems: false
+		});
+		const levelChoices = new Choices('#q_level', {
+			duplicateItems: false
+		});
 
 		function populateChoices(choiceBox, values) {
 			choices = values.map((val) => {
-				return { value: val.toString(), label: val.toString(), selected: false };
+				return {
+					value: val.toString(),
+					label: val.toString(),
+					selected: false
+				};
 			});
-			choices.unshift({ value: 'All', label: 'All', selected: true });
+			choices.unshift({
+				value: 'All',
+				label: 'All',
+				selected: true
+			});
 			choiceBox.setChoices(choices, 'value', 'label', true);
 		}
 
