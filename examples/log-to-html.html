@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>log to html upload</title>
+	<style type="text/css">
+		body {
+			font-family: sans-serif;
+			font-size: 12px;
+		}
+
+		.pagediv {
+			border: 1px solid white;
+		}
+
+		#data {
+			clear: both;
+			overflow: auto;
+			width: 100%;
+		}
+
+	</style>
+	<link href="stylesheets/search.css" rel="stylesheet" type="text/css" />
+	<link href="stylesheets/filter.css" rel="stylesheet" type="text/css" />
+	<!--http://www.listjs.com/-->
+	<link href="stylesheets/list.css" rel="stylesheet" type="text/css" />
+	<script src="javascripts/list.js"></script>
+	<script src="javascripts/list.pagination.js"></script>
+	<!--http://www.menucool.com/tabbed-content-->
+	<link href="stylesheets/tabcontent.css" rel="stylesheet" type="text/css" />
+	<script src="javascripts/tabcontent.js" type="text/javascript"></script>
+	<!--XML Formatter-->
+	<script src="javascripts/xml-formatter.js"></script>
+	<!--https://flatpickr.js.org/-->
+	<link href="stylesheets/flatpickr.css" rel="stylesheet" type="text/css" />
+	<script src="javascripts/flatpickr.js" type="text/javascript"></script>
+	<!--https://joshuajohnson.co.uk/Choices/-->
+	<!--<link href="stylesheets/base.css" rel="stylesheet" type="text/css" />-->
+	<link href="stylesheets/choices.css" rel="stylesheet" type="text/css" />
+	<script src="javascripts/choices.js" type="text/javascript"></script>
+	<!--Travel Leaders Content-->
+	<script src="../lib/compleat-vendor-debug-parser.js"></script>
+	<!-- syntax highligher -->
+	<link rel="stylesheet" href="stylesheets/highlight/default.css">
+	<script src="javascripts/highlight.pack.js"></script>
+</head>
+
+<body>
+	<div id="inputdiv" style="width:100%; margin: 0 auto; padding: 0 0 10px;">
+		<ul class="tabs" data-persist="true" id="tabslist">
+			<li id="tab1">
+				<a id="tab1link" href="#copypasteview">Copy/Paste</a>
+			</li>
+			<li id="tab2">
+				<a id="tab2link" href="#uploadview">Upload</a>
+			</li>
+			<li id="tab3">
+				<a id="tab3link" href="#searchview">Search</a>
+			</li>
+			<li id="tab4">
+				<a id="tab4link" href="#filterview">Filter</a>
+			</li>
+		</ul>
+		<div class="tabcontents">
+			<div id="copypasteview">
+				<form onsubmit="processTextBox();return false;">
+					<div id="logdiv">
+						<textarea id="logtext" style="width:100%;min-height:75px;max-width:100%;"></textarea>
+					</div>
+					<div id="upload">
+						<input name="submit" id="submit" type="submit" value="Convert" />
+					</div>
+				</form>
+			</div>
+			<div id="uploadview" style="display:none;">
+				<form>
+					<input type="file" id="files" name="files" />
+				</form>
+			</div>
+			<div id="searchview">
+				<form id="search">
+					<div class="string input optional stringish search_form_field search_string" id="q_search_input">
+						<label for="q_search" class="label">Search:</label>
+						<input type="text" class="search" placeholder="Search log" name="q[search]" id="q_search" />
+					</div>
+					<div class="select input optional search_form_field search_select" id="q_column_input">
+						<label for="q_column" class="label">Column(s):</label>
+						<select name="q[column]" id="q_column" multiple="multiple" size="5">
+							<option value="lineNumber">Line</option>
+							<option value="worker">Worker</option>
+							<option value="workstation">Workstation</option>
+							<option value="workflow">Workflow</option>
+							<option value="process">Process</option>
+							<option value="routine">Routine</option>
+							<option value="pnrLocator">Locator</option>
+							<option value="category">Category</option>
+							<option value="level">Level</option>
+							<option value="dateTimeText">Date/Time</option>
+							<option value="text">Text</option>
+						</select>
+					</div>
+					<div class="buttons">
+						<a id="apply_search_btn" href="#">Search</a>
+						<a id="clear_search_btn" href="#">Clear</a>
+					</div>
+				</form>
+			</div>
+			<div id="filterview">
+				<form id="filter">
+					<div class="number_range input optional filter_form_field filter_number_range" id="q_line_number_input">
+						<label class="label">Line</label>
+						<input size="12" maxlength="10" placeholder="From" value="" type="number" name="q[line_number_gteq]" id="q_line_number_gteq">
+						<input size="12" maxlength="10" placeholder="To" value="" type="number" name="q[line_number_lteq]" id="q_line_number_lteq">
+					</div>
+					<div class="select input optional filter_form_field filter_select" id="q_worker_input">
+						<label for="q_worker" class="label">Worker:</label>
+						<select name="q[worker_eq]" id="q_worker">
+							<option value="All">All</option>
+						</select>
+					</div>
+					<div class="select input optional filter_form_field filter_select" id="q_workstation_input">
+						<label for="q_workstation" class="label">Workstation:</label>
+						<select name="q[workstation_eq]" id="q_workstation">
+							<option value="All">All</option>
+						</select>
+					</div>
+					<div class="select input optional filter_form_field filter_select" id="q_workflow_input">
+						<label for="q_workflow" class="label">Workflow:</label>
+						<select name="q[workflow_eq]" id="q_workflow">
+							<option value="All">All</option>
+						</select>
+					</div>
+					<div class="select input optional filter_form_field filter_select" id="q_process_input">
+						<label for="q_process" class="label">Process:</label>
+						<select name="q[process_eq]" id="q_process">
+							<option value="All">All</option>
+						</select>
+					</div>
+					<div class="select input optional filter_form_field filter_select" id="q_category_input">
+						<label for="q_category" class="label">Category:</label>
+						<select name="q[category_eq]" id="q_category">
+							<option value="All">All</option>
+						</select>
+					</div>
+					<div class="select input optional filter_form_field filter_select" id="q_level_input">
+						<label for="q_level" class="label">Level:</label>
+						<select name="q[level_eq]" id="q_level">
+							<option value="All">All</option>
+						</select>
+					</div>
+					<div class="date_range input optional filter_form_field filter_date_range" id="q_date_time_input">
+						<label class="label">Date/Time:</label>
+						<input class="datepicker" size="12" maxlength="10" placeholder="From" value="" type="text" name="q[date_time_gteq]" id="q_date_time_gteq">
+						<input class="datepicker" size="12" maxlength="10" placeholder="To" value="" type="text" name="q[date_time_lteq]" id="q_date_time_lteq">
+					</div>
+					<div class="buttons">
+						<a id="apply_filters_btn" href="#">Filter</a>
+						<a id="clear_filters_btn" href="#">Clear</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div id="logtable">
+		<div id="pagediv">
+			<ul class="pagination"></ul>
+		</div>
+		<div id="data">
+			<table class="listable sortable">
+				<thead>
+					<tr>
+						<th class="sort" data-sort="lineNumber">Line</th>
+						<th class="sort" data-sort="worker">Worker</th>
+						<th class="sort" data-sort="workstation">Workstation</th>
+						<th class="sort" data-sort="workflow">Workflow</th>
+						<th class="sort" data-sort="process">Process</th>
+						<th class="sort" data-sort="routine">Routine</th>
+						<th class="sort" data-sort="pnrLocator">Locator</th>
+						<th class="sort" data-sort="category">Category</th>
+						<th class="sort" data-sort="level">Level</th>
+						<th class="sort" data-sort="dateTimeText">Date/Time</th>
+						<th class="sort" data-sort="text">Text</th>
+					</tr>
+				</thead>
+				<tbody class="list">
+					<tr>
+						<td class="lineNumber"></td>
+						<td class="worker"></td>
+						<td class="workstation"></td>
+						<td class="workflow"></td>
+						<td class="process"></td>
+						<td class="routine"></td>
+						<td class="pnrLocator"></td>
+						<td class="category"></td>
+						<td class="level"></td>
+						<td class="dateTimeText"></td>
+						<td class="text"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script type="text/javascript">
+		//list
+		var options = {
+			valueNames: ['lineNumber', 'worker', 'workstation', 'category', 'level', 'dateTimeText', 'text', 'workflow',
+				'process', 'routine', 'pnrLocator'
+			],
+			page: 20,
+			plugins: [ListPagination({
+				outerWindow: 2
+			})]
+		};
+		// Init list
+		var logTable = new List('logtable', options);
+		logTable.on('updated', highlightXml);
+
+		// GDSX Log handling
+		function processTextBox() {
+			processLogText(document.getElementById('logtext').value);
+		}
+
+		function prettyXml(xmlText) {
+			var format = require('xml-formatter');
+
+			var options = {
+				indentation: '  ',
+				stripComments: true
+			};
+			return format(xmlText, options);
+		}
+
+		// utility function to process log text
+		function processLogText(logText) {
+			if (logText.length > 0) {
+				var logArray = compleatVendorDebug.parseLog(logText);
+			}
+			logTable.clear();
+			logTable.add(logArray);
+			buildFilters(logArray);
+		}
+
+		function highlightXml() {
+			var textNodes = document.getElementsByClassName('text');
+			var xmlNodes = Array.prototype.filter.call(textNodes, function (node) {
+				return node.childNodes[0].nodeType !== Node.TEXT_NODE
+			});
+			xmlNodes.forEach(element => {
+				if (element.childNodes[0].tagName.toLowerCase() !== 'pre') {
+					var pre = document.createElement('pre');
+					var code = document.createElement('code');
+					code.className = 'xml';
+					pre.appendChild(code);
+					var xml = document.createTextNode(prettyXml(element.innerHTML));
+					code.appendChild(xml);
+					element.removeChild(element.childNodes[0]);
+					element.appendChild(pre);
+					hljs.highlightBlock(code);
+				}
+			});
+		}
+
+		//http://jsfiddle.net/0GiS0/nDVYd/
+		window.onload = function () {
+			//Check File API support
+			if (window.File && window.FileList && window.FileReader) {
+				var filesInput = document.getElementById("files");
+				addEvent(filesInput, "change", function (event) {
+					var files = event.target.files; //FileList object
+					var output = document.getElementById("result");
+
+					for (var i = 0; i < files.length; i++) {
+						var file = files[i];
+						//Only plain text
+						if (!file.type.match('plain') && !file.name.match(/\.log$/)) continue;
+						var logReader = new FileReader();
+						logReader.addEventListener("load", function (event) {
+							var textFile = event.target;
+							processLogText(textFile.result);
+						});
+
+						//Read the text file
+						logReader.readAsText(file);
+					}
+
+				});
+				addEvent(document.getElementById('tab1link'), 'click', resizeData);
+				addEvent(document.getElementById('tab2link'), 'click', resizeData);
+				addEvent(document.getElementById('tab3link'), 'click', resizeData);
+				addEvent(document.getElementById('tab4link'), 'click', resizeData);
+			} else {
+				// hide file upload content:
+				document.getElementById('tab2').style.display = 'none';
+			}
+			addEvent(document.getElementById('apply_filters_btn'), 'click', applyFilters);
+			addEvent(document.getElementById('clear_filters_btn'), 'click', clearFilters);
+			addEvent(document.getElementById('apply_search_btn'), 'click', applySearch);
+			addEvent(document.getElementById('clear_search_btn'), 'click', clearSearch);
+			resizeData();
+		}
+
+		window.onresize = resizeData;
+
+		function resizeData() {
+			window.setTimeout(function () {
+				resizeElementHeight(document.getElementById('data'))
+			}, 50);
+		}
+
+		/** Search **/
+		// https://stackoverflow.com/questions/11821261/how-to-get-all-selected-values-from-select-multiple-multiple
+		function getSelectValues(select) {
+			var result = [];
+			var options = select && select.options;
+			var opt;
+
+			for (var i = 0, iLen = options.length; i < iLen; i++) {
+				opt = options[i];
+
+				if (opt.selected) {
+					result.push(opt.value || opt.text);
+				}
+			}
+			return result;
+		}
+
+		// https://stackoverflow.com/questions/12802739/deselect-selected-options-in-select-menu-with-multiple-and-optgroups
+		function clearSelected(select) {
+			var options = select && select.options;
+
+			for (var i = 0; i < options.length; i++) {
+				options[i].selected = false;
+			}
+		}
+
+		function applySearch() {
+			var columns = getSelectValues(document.getElementById('q_column'));
+			if (columns.length > 0) {
+				logTable.search(document.getElementById('q_search').value, columns);
+			} else {
+				logTable.search(document.getElementById('q_search').value);
+			}
+		}
+
+		function clearSearch() {
+			document.getElementById('q_search').value = '';
+			columnChoices.removeActiveItems();
+			// clearSelected(document.getElementById('q_column'));
+			logTable.search(); // Show all items in list
+		}
+
+		/** End search **/
+
+		/** filters **/
+		// init datepickers:
+		flatpickr(".datepicker", {
+			enableTime: true,
+			dateFormat: "Y-m-d H:i"
+		});
+
+		const columnChoices = new Choices('#q_column', {
+			removeItemButton: true,
+			duplicateItemsAllowed: false
+		})
+		const workerChoices = new Choices('#q_worker', {
+			duplicateItemsAllowed: false
+		});
+		const workstationChoices = new Choices('#q_workstation', {
+			duplicateItemsAllowed: false
+		});
+		const workflowChoices = new Choices('#q_workflow', {
+			duplicateItemsAllowed: false
+		});
+		const processChoices = new Choices('#q_process', {
+			duplicateItemsAllowed: false
+		});
+		const categoryChoices = new Choices('#q_category', {
+			duplicateItemsAllowed: false
+		});
+		const levelChoices = new Choices('#q_level', {
+			duplicateItemsAllowed: false
+		});
+
+		function populateChoices(choiceBox, values) {
+			choices = values.map((val) => {
+				return {
+					value: val.toString(),
+					label: val.toString(),
+					selected: false
+				};
+			});
+			choices.unshift({
+				value: 'All',
+				label: 'All',
+				selected: true
+			});
+			choiceBox.setChoices(choices, 'value', 'label', true);
+		}
+
+		function removeOptions(selectbox) {
+			var i;
+			for (i = selectbox.options.length - 1; i >= 0; i--) {
+				selectbox.remove(i);
+			}
+		}
+
+		function addOption(select, text, value, selected) {
+			var el = document.createElement("option");
+			el.textContent = text;
+			el.value = value;
+			el.selected = selected;
+			select.appendChild(el);
+		}
+
+		function populateSelect(elementId, values) {
+			var selectBox = document.getElementById(elementId);
+			removeOptions(selectBox);
+			addOption(selectBox, 'All', 'All', true);
+
+			for (var i = 0; i < values.length; i++) {
+				var opt = values[i];
+				addOption(selectBox, opt, opt, false);
+			}
+		}
+
+		function buildFilters(logTable) {
+			let workers = [...new Set(logTable.map(item => item.worker))].sort();
+			populateSelect('q_worker', workers);
+			populateChoices(workerChoices, workers);
+			let workstations = [...new Set(logTable.map(item => item.workstation))].sort();
+			populateSelect('q_workstation', workstations);
+			populateChoices(workstationChoices, workstations);
+			let workflows = [...new Set(logTable.map(item => item.workflow))].sort();
+			populateSelect('q_workflow', workflows);
+			populateChoices(workflowChoices, workflows);
+			let processes = [...new Set(logTable.map(item => item.process))].sort();
+			populateSelect('q_process', processes);
+			populateChoices(processChoices, processes);
+			let categories = [...new Set(logTable.map(item => item.category))].sort();
+			populateSelect('q_category', categories);
+			populateChoices(categoryChoices, categories);
+			let levels = [...new Set(logTable.map(item => item.level))].sort();
+			populateSelect('q_level', levels);
+			populateChoices(levelChoices, levels);
+		}
+
+		function getIntegerValue(elementId) {
+			var formVal = document.getElementById(elementId).value;
+			if (Number.isNaN(formVal)) {
+				return null;
+			} else {
+				return new Number(formVal).valueOf();
+			}
+		}
+
+		function selectFilter(elementId) {
+			var selectBox = document.getElementById(elementId);
+			var value = selectBox.options[selectBox.selectedIndex].value;
+			if (value == 'All') {
+				return trueFilter;
+			} else {
+				return function (val) {
+					return (val == value);
+				}
+			}
+		}
+
+		function trueFilter() {
+			return true;
+		}
+
+		function lessThanFilter(upperLimit) {
+			return function (val) {
+				return (val <= upperLimit);
+			}
+		}
+
+		function greaterThanFilter(lowerLimit) {
+			return function (val) {
+				return (val >= lowerLimit);
+			}
+		}
+
+		function betweenFilter(lowerLimit, upperLimit) {
+			return function (val) {
+				return (val >= lowerLimit && val <= upperLimit);
+			}
+		}
+
+		function applyFilters() {
+			var lineFilter;
+			var dateFilter;
+			var lineGreaterThan = getIntegerValue('q_line_number_gteq');
+			var lineLessThan = getIntegerValue('q_line_number_lteq');
+			if (lineLessThan == 0 && lineGreaterThan == 0) {
+				lineFilter = trueFilter;
+			} else if (lineLessThan == 0) {
+				lineFilter = greaterThanFilter(lineGreaterThan);
+			} else if (lineGreaterThan == 0) {
+				lineFilter = lessThanFilter(lineLessThan);
+			} else {
+				lineFilter = betweenFilter(lineGreaterThan, lineLessThan);
+			}
+			var workerFilter = selectFilter('q_worker');
+			var workstationFilter = selectFilter('q_workstation');
+			var workflowFilter = selectFilter('q_workflow');
+			var processFilter = selectFilter('q_process');
+			var categoryFilter = selectFilter('q_category');
+			var levelFilter = selectFilter('q_level');
+			var dateGreaterThan = document.getElementById('q_date_time_gteq').value;
+			var dateLessThan = document.getElementById('q_date_time_lteq').value;
+			if (dateGreaterThan != '' && dateLessThan != '') {
+				dateFilter = betweenFilter(new Date(dateGreaterThan), new Date(dateLessThan));
+			} else if (dateGreaterThan != '') {
+				dateFilter = greaterThanFilter(new Date(dateGreaterThan));
+			} else if (dateLessThan != '') {
+				dateFilter = lessThanFilter(new Date(dateLessThan));
+			} else {
+				dateFilter = trueFilter;
+			}
+			logTable.filter(function (item) {
+				itemValues = item.values();
+				var lineInBounds = lineFilter(itemValues.lineNumber);
+				var workerValid = workerFilter(itemValues.worker);
+				var workstationValid = workstationFilter(itemValues.workstation);
+				var workflowValid = workflowFilter(itemValues.workflow);
+				var processValid = processFilter(itemValues.process);
+				var categoryValid = categoryFilter(itemValues.category);
+				var levelValid = levelFilter(itemValues.level);
+				var dateValid = dateFilter(itemValues.dateTime);
+				return lineInBounds && workerValid && workstationValid && workflowValid && processValid && categoryValid &&
+					levelValid && dateValid;
+			});
+		}
+
+		function clearFilters() {
+			document.getElementById('q_line_number_gteq').value = '';
+			document.getElementById('q_line_number_lteq').value = '';
+			document.getElementById('q_worker').value = 'All';
+			workerChoices.setValueByChoice('All');
+			document.getElementById('q_workstation').value = 'All';
+			workstationChoices.setValueByChoice('All');
+			document.getElementById('q_workflow').value = 'All';
+			workflowChoices.setValueByChoice('All');
+			document.getElementById('q_process').value = 'All';
+			processChoices.setValueByChoice('All');
+			document.getElementById('q_category').value = 'All';
+			categoryChoices.setValueByChoice('All');
+			document.getElementById('q_level').value = 'All';
+			levelChoices.setValueByChoice('All');
+			document.getElementById('q_date_time_gteq').value = '';
+			document.getElementById('q_date_time_lteq').value = '';
+			logTable.filter();
+		}
+		/** end filters **/
+
+		//display handling
+		//http://stackoverflow.com/questions/33080/setting-the-height-of-a-div-dynamically
+		function resizeElementHeight(element) {
+			var height = 0;
+			var body = window.document.body;
+			if (window.innerHeight) {
+				height = window.innerHeight;
+			} else if (body.parentElement.clientHeight) {
+				height = body.parentElement.clientHeight;
+			} else if (body && body.clientHeight) {
+				height = body.clientHeight;
+			}
+			element.style.height = (((height - element.offsetTop) - 10) + "px");
+		}
+
+		// add event cross browser
+		//http://stackoverflow.com/questions/10149963/adding-event-listener-cross-browser
+		function addEvent(elem, event, fn) {
+			if (elem.addEventListener) {
+				elem.addEventListener(event, fn, false);
+			} else {
+				elem.attachEvent("on" + event, function () {
+					// set the this pointer same as addEventListener when fn is called
+					return (fn.call(elem, window.event));
+				});
+			}
+		}
+
+	</script>
+</body>
+
+</html>
