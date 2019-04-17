@@ -28,7 +28,7 @@ form#search select {
     width: 240px
 }
 
-form#search a#apply_search_btn {
+#apply_search_btn {
     border-radius: 200px;
     display: inline-block;
     font-weight: bold;
@@ -52,7 +52,7 @@ form#search a#apply_search_btn {
     cursor: pointer
 }
 
-form#search a#clear_search_btn {
+#clear_search_btn {
     border-radius: 200px;
     display: inline-block;
     font-weight: bold;

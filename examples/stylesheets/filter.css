@@ -28,7 +28,7 @@ form#filter select {
     width: 240px
 }
 
-form#filter a#apply_filters_btn {
+#apply_filters_btn {
     border-radius: 200px;
     display: inline-block;
     font-weight: bold;
@@ -52,7 +52,7 @@ form#filter a#apply_filters_btn {
     cursor: pointer
 }
 
-form#filter a#clear_filters_btn {
+#clear_filters_btn {
     border-radius: 200px;
     display: inline-block;
     font-weight: bold;
