@@ -27,6 +27,7 @@
   <script src="javascripts/choices.js" type="text/javascript"></script>
   <!--Travel Leaders Content-->
   <script src="../lib/compleat-vendor-debug-parser.js"></script>
+  <script src="javascripts/wspan-dir-parser.js"></script>
   <!-- syntax highligher -->
   <link rel="stylesheet" href="stylesheets/highlight/default.css">
   <script src="javascripts/highlight.pack.js"></script>
@@ -207,6 +208,7 @@
     // Init list
     var logTable = new List('logtable', options);
     logTable.on('updated', highlightXml);
+    logTable.on('updated', convertDIR);
 
     // GDSX Log handling
     function processTextBox(e) {
@@ -252,6 +254,24 @@
           element.appendChild(pre);
           hljs.highlightBlock(code);
         }
+      });
+    }
+
+    function convertDIR() {
+      var textNodes = document.getElementsByClassName('text');
+      var dirNodes = Array.from(textNodes).filter(node => (node.innerText || node.textContent).substring(0, 3) === 'DIR' );
+      dirNodes.forEach(element => {
+        var pre = document.createElement('pre');
+        var code = document.createElement('code');
+        code.className = 'xml';
+        pre.appendChild(code);
+        var DIRTree = wspanDIR.parseDIRMessage(element.innerText || element.textContent);
+        var plainXML = DIRTree.toXML();
+        var xml = document.createTextNode(plainXML);
+        code.appendChild(xml);
+        element.removeChild(element.childNodes[0]);
+        element.appendChild(pre);
+        hljs.highlightBlock(code);
       });
     }
 
