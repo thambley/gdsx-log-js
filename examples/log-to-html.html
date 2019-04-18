@@ -21,7 +21,9 @@
     }
 
   </style>
+  <link href="stylesheets/log-to-html.css" rel="stylesheet" type="text/css" />
   <link href="stylesheets/copypaste.css" rel="stylesheet" type="text/css" />
+  <link href="stylesheets/upload.css" rel="stylesheet" type="text/css" />
   <link href="stylesheets/search.css" rel="stylesheet" type="text/css" />
   <link href="stylesheets/filter.css" rel="stylesheet" type="text/css" />
   <!--http://www.listjs.com/-->
@@ -70,13 +72,18 @@
             <textarea id="logtext" style="width:100%;min-height:75px;max-width:100%;"></textarea>
           </div>
           <div id="convert">
-            <input name="convert_text_btn" id="convert_text_btn" type="submit" value="Convert" />
+            <input name="convert_text_btn" id="convert_text_btn" class="submit_btn" type="submit" value="Convert" />
           </div>
         </form>
       </div>
       <div id="uploadview" style="display:none;">
         <form id="upload">
-          <input type="file" id="upload_file_btn" name="upload_file_btn" />
+          <span id="upload_file_name">No file chosen</span>
+          <div id="custom_file_upload">
+            <label class="upload_btn" for="file_upload">Choose File
+              <input type="file" id="file_upload" name="file_upload" />
+            </label>
+          </div>
         </form>
       </div>
       <div id="searchview">
@@ -102,8 +109,8 @@
             </select>
           </div>
           <div class="buttons">
-            <input name="apply_search_btn" id="apply_search_btn" type="submit" value="Search" />
-            <input name="clear_search_btn" id="clear_search_btn" type="button" value="Clear"/>
+            <input name="apply_search_btn" id="apply_search_btn" class="submit_btn" type="submit" value="Search" />
+            <input name="clear_search_btn" id="clear_search_btn" class="reset_btn" type="button" value="Clear"/>
           </div>
         </form>
       </div>
@@ -156,8 +163,8 @@
             <input class="datepicker" size="12" maxlength="10" placeholder="To" value="" type="text" name="q[date_time_lteq]" id="q_date_time_lteq">
           </div>
           <div class="buttons">
-            <input name="apply_filters_btn" id="apply_filters_btn" type="submit" value="Filter" />
-            <input name="clear_filters_btn" id="clear_filters_btn" type="button" value="Clear"/>
+            <input name="apply_filters_btn" id="apply_filters_btn" class="submit_btn" type="submit" value="Filter" />
+            <input name="clear_filters_btn" id="clear_filters_btn" class="reset_btn" type="button" value="Clear"/>
           </div>
         </form>
       </div>
@@ -268,7 +275,7 @@
     window.onload = function () {
       //Check File API support
       if (window.File && window.FileList && window.FileReader) {
-        var filesInput = document.getElementById("upload_file_btn");
+        var filesInput = document.getElementById("file_upload");
         addEvent(filesInput, "change", function (event) {
           var files = event.target.files; //FileList object
           var output = document.getElementById("result");
@@ -277,6 +284,7 @@
             var file = files[i];
             //Only plain text
             if (!file.type.match('plain') && !file.name.match(/\.log$/)) continue;
+            upload_file_name.innerHTML = file.name;
             var logReader = new FileReader();
             logReader.addEventListener("load", function (event) {
               var textFile = event.target;
