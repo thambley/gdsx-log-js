@@ -65,18 +65,18 @@
     </ul>
     <div class="tabcontents">
       <div id="copypasteview">
-        <form onsubmit="processTextBox();return false;">
+        <form id="copypaste">
           <div id="logdiv">
             <textarea id="logtext" style="width:100%;min-height:75px;max-width:100%;"></textarea>
           </div>
-          <div id="upload">
+          <div id="convert">
             <input name="convert_text_btn" id="convert_text_btn" type="submit" value="Convert" />
           </div>
         </form>
       </div>
       <div id="uploadview" style="display:none;">
-        <form>
-          <input type="file" id="files" name="files" />
+        <form id="upload">
+          <input type="file" id="upload_file_btn" name="upload_file_btn" />
         </form>
       </div>
       <div id="searchview">
@@ -103,9 +103,7 @@
           </div>
           <div class="buttons">
             <input name="apply_search_btn" id="apply_search_btn" type="submit" value="Search" />
-            <!--<a id="apply_search_btn" href="#">Search</a>-->
             <input name="clear_search_btn" id="clear_search_btn" type="button" value="Clear"/>
-            <!--<a id="clear_search_btn" href="#">Clear</a>-->
           </div>
         </form>
       </div>
@@ -158,10 +156,8 @@
             <input class="datepicker" size="12" maxlength="10" placeholder="To" value="" type="text" name="q[date_time_lteq]" id="q_date_time_lteq">
           </div>
           <div class="buttons">
-			<input name="apply_filters_btn" id="apply_filters_btn" type="submit" value="Filter" />
-            <!--<a id="apply_filters_btn" href="#">Filter</a>-->
+            <input name="apply_filters_btn" id="apply_filters_btn" type="submit" value="Filter" />
             <input name="clear_filters_btn" id="clear_filters_btn" type="button" value="Clear"/>
-            <!--<a id="clear_filters_btn" href="#">Clear</a>-->
           </div>
         </form>
       </div>
@@ -222,8 +218,10 @@
     logTable.on('updated', highlightXml);
 
     // GDSX Log handling
-    function processTextBox() {
+    function processTextBox(e) {
+      e.preventDefault();
       processLogText(document.getElementById('logtext').value);
+      return false;
     }
 
     function prettyXml(xmlText) {
@@ -270,7 +268,7 @@
     window.onload = function () {
       //Check File API support
       if (window.File && window.FileList && window.FileReader) {
-        var filesInput = document.getElementById("files");
+        var filesInput = document.getElementById("upload_file_btn");
         addEvent(filesInput, "change", function (event) {
           var files = event.target.files; //FileList object
           var output = document.getElementById("result");
@@ -298,11 +296,11 @@
         // hide file upload content:
         document.getElementById('tab2').style.display = 'none';
       }
-	  addEvent(document.getElementById('filter'), 'submit', applyFilters);
-      addEvent(document.getElementById('apply_filters_btn'), 'click', applyFilters);
-	  addEvent(document.getElementById('clear_filters_btn'), 'click', clearFilters);
-	  addEvent(document.getElementById('search'), 'submit', applySearch);
-	  addEvent(document.getElementById('apply_search_btn'), 'click', applySearch);
+      
+      addEvent(document.getElementById('copypaste'), 'submit', processTextBox);
+      addEvent(document.getElementById('filter'), 'submit', applyFilters);
+      addEvent(document.getElementById('clear_filters_btn'), 'click', clearFilters);
+      addEvent(document.getElementById('search'), 'submit', applySearch);
       addEvent(document.getElementById('clear_search_btn'), 'click', clearSearch);
       resizeData();
     }
