@@ -48,6 +48,9 @@
       <li id="tab4">
         <a id="tab4link" href="#filterview">Filter</a>
       </li>
+      <li id="tab5">
+        <a id="tab5link" href="#infoview">Info</a>
+      </li>
     </ul>
     <div class="tabcontents">
       <div id="copypasteview">
@@ -152,6 +155,9 @@
             <input name="clear_filters_btn" id="clear_filters_btn" class="reset_btn" type="button" value="Clear"/>
           </div>
         </form>
+      </div>
+      <div id="infoview">
+        <div id="info"></div>
       </div>
     </div>
   </div>
@@ -261,17 +267,19 @@
       var textNodes = document.getElementsByClassName('text');
       var dirNodes = Array.from(textNodes).filter(node => (node.innerText || node.textContent).substring(0, 3) === 'DIR' );
       dirNodes.forEach(element => {
-        var pre = document.createElement('pre');
-        var code = document.createElement('code');
-        code.className = 'xml';
-        pre.appendChild(code);
         var DIRTree = wspanDIR.parseDIRMessage(element.innerText || element.textContent);
-        var plainXML = DIRTree.toXML();
-        var xml = document.createTextNode(plainXML);
-        code.appendChild(xml);
-        element.removeChild(element.childNodes[0]);
-        element.appendChild(pre);
-        hljs.highlightBlock(code);
+        if (DIRTree) {
+          var pre = document.createElement('pre');
+          var code = document.createElement('code');
+          code.className = 'xml';
+          pre.appendChild(code);
+          var plainXML = DIRTree.toXML();
+          var xml = document.createTextNode(plainXML);
+          code.appendChild(xml);
+          element.removeChild(element.childNodes[0]);
+          element.appendChild(pre);
+          hljs.highlightBlock(code);
+        }
       });
     }
 
@@ -308,7 +316,7 @@
         // hide file upload content:
         document.getElementById('tab2').style.display = 'none';
       }
-      
+
       addEvent(document.getElementById('copypaste'), 'submit', processTextBox);
       addEvent(document.getElementById('filter'), 'submit', applyFilters);
       addEvent(document.getElementById('clear_filters_btn'), 'click', clearFilters);
