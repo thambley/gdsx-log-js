@@ -78,21 +78,13 @@
       </div>
       <div id="uploadview" style="display:none;">
         <form id="upload">
-          <table>
-            <tr>
-              <td>
-                <div id="custom_file_upload">
-                  <label class="upload_btn" for="file_upload">Choose File
-                    <input type="file" id="file_upload" name="file_upload" />
-                  </label>
-                </div>
-              </td>
-              <td>
-                <span id="upload_file_name">No file chosen</span>
-              </td>
-            </tr>
-          </table>
-          
+          <div id="custom_file_upload">
+            <label for="file_upload">
+              <span class="upload_btn">Choose File</span>
+              <input type="file" id="file_upload" name="file_upload" />
+              <span id="upload_file_name">No file chosen</span>
+            </label>
+          </div>
         </form>
       </div>
       <div id="searchview">
