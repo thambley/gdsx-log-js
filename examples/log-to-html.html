@@ -9,6 +9,7 @@
   <link href="stylesheets/upload.css" rel="stylesheet" type="text/css" />
   <link href="stylesheets/search.css" rel="stylesheet" type="text/css" />
   <link href="stylesheets/filter.css" rel="stylesheet" type="text/css" />
+  <link href="stylesheets/onoff.css" rel="stylesheet" type="text/css" />
   <!--http://www.listjs.com/-->
   <link href="stylesheets/list.css" rel="stylesheet" type="text/css" />
   <script src="javascripts/list.js"></script>
@@ -49,7 +50,10 @@
         <a id="tab4link" href="#filterview">Filter</a>
       </li>
       <li id="tab5">
-        <a id="tab5link" href="#infoview">Info</a>
+        <a id="tab5link" href="#settingsview">Settings</a>
+      </li>
+      <li id="tab6">
+        <a id="tab6link" href="#infoview">Info</a>
       </li>
     </ul>
     <div class="tabcontents">
@@ -156,6 +160,153 @@
           </div>
         </form>
       </div>
+      <div id="settingsview">
+        <form id="settings">
+          <h2>Columns to show</h2>
+          <table>
+            <tr>
+              <td>
+                <label for="lineonoffswitch"> Line: </label>
+              </td>
+              <td>
+                <div class="onoffswitch">
+                  <input type="checkbox" name="lineNumberonoffswitch" class="onoffswitch-checkbox" id="lineNumberonoffswitch" checked>
+                  <label class="onoffswitch-label" for="lineNumberonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </td>
+              <td>
+                <label for="workeronoffswitch"> Worker: </label>
+              </td>
+              <td>
+                <div class="onoffswitch">
+                  <input type="checkbox" name="workeronoffswitch" class="onoffswitch-checkbox" id="workeronoffswitch">
+                  <label class="onoffswitch-label" for="workeronoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </td>
+              <td>
+                <label for="workstationonoffswitch"> Workstation: </label>
+              </td>
+              <td>
+                <div class="onoffswitch">
+                  <input type="checkbox" name="workstationonoffswitch" class="onoffswitch-checkbox" id="workstationonoffswitch">
+                  <label class="onoffswitch-label" for="workstationonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </td>
+              <td>
+                <label for="workflowonoffswitch"> Workflow: </label>
+              </td>
+              <td>
+                <div class="onoffswitch">
+                  <input type="checkbox" name="workflowonoffswitch" class="onoffswitch-checkbox" id="workflowonoffswitch" checked>
+                  <label class="onoffswitch-label" for="workflowonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label for="processonoffswitch"> Process: </label>
+              </td>
+              <td>
+                <div class="onoffswitch">
+                  <input type="checkbox" name="processonoffswitch" class="onoffswitch-checkbox" id="processonoffswitch" checked>
+                  <label class="onoffswitch-label" for="processonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </td>
+              <td>
+                <label for="routineonoffswitch"> Routine: </label>
+              </td>
+              <td>
+                <div class="onoffswitch">
+                  <input type="checkbox" name="routineonoffswitch" class="onoffswitch-checkbox" id="routineonoffswitch" checked>
+                  <label class="onoffswitch-label" for="routineonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </td>
+              <td>
+                <label for="pnrLocatoronoffswitch"> Locator: </label>
+              </td>
+              <td>
+                <div class="onoffswitch">
+                  <input type="checkbox" name="pnrLocatoronoffswitch" class="onoffswitch-checkbox" id="pnrLocatoronoffswitch" checked>
+                  <label class="onoffswitch-label" for="pnrLocatoronoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </td>
+              <td>
+                <label for="categoryonoffswitch"> Category: </label>
+              </td>
+              <td>
+                <div class="onoffswitch">
+                  <input type="checkbox" name="categoryonoffswitch" class="onoffswitch-checkbox" id="categoryonoffswitch" checked>
+                  <label class="onoffswitch-label" for="categoryonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label for="levelonoffswitch"> Level: </label>
+              </td>
+              <td>
+                <div class="onoffswitch">
+                  <input type="checkbox" name="levelonoffswitch" class="onoffswitch-checkbox" id="levelonoffswitch" checked>
+                  <label class="onoffswitch-label" for="levelonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </td>
+              <td>
+                <label for="dateTimeTextonoffswitch"> Date/Time: </label>
+              </td>
+              <td>
+                <div class="onoffswitch">
+                  <input type="checkbox" name="dateTimeTextonoffswitch" class="onoffswitch-checkbox" id="dateTimeTextonoffswitch" checked>
+                  <label class="onoffswitch-label" for="dateTimeTextonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </td>
+              <td>
+                <label for="textonoffswitch"> Text: </label>
+              </td>
+              <td>
+                <div class="onoffswitch">
+                  <input type="checkbox" name="textonoffswitch" class="onoffswitch-checkbox" id="textonoffswitch" checked>
+                  <label class="onoffswitch-label" for="textonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+        </form>
+      </div>
       <div id="infoview">
         <div id="info"></div>
       </div>
@@ -167,6 +318,17 @@
     </div>
     <div id="data">
       <table class="listable sortable">
+        <col class="lineNumber"/>
+        <col class="worker"/>
+        <col class="workstation"/>
+        <col class="workflow"/>
+        <col class="process"/>
+        <col class="routine"/>
+        <col class="pnrLocator"/>
+        <col class="category"/>
+        <col class="level"/>
+        <col class="dateTimeText"/>
+        <col class="text"/>
         <thead>
           <tr>
             <th class="sort" data-sort="lineNumber">Line</th>
@@ -246,7 +408,7 @@
     function highlightXml() {
       var textNodes = document.getElementsByClassName('text');
       var xmlNodes = Array.prototype.filter.call(textNodes, function (node) {
-        return node.childNodes[0].nodeType !== Node.TEXT_NODE
+        return node.childNodes && node.childNodes[0] && node.childNodes[0].nodeType !== Node.TEXT_NODE
       });
       xmlNodes.forEach(element => {
         if (element.childNodes[0].tagName.toLowerCase() !== 'pre') {
@@ -312,6 +474,8 @@
         addEvent(document.getElementById('tab2link'), 'click', resizeData);
         addEvent(document.getElementById('tab3link'), 'click', resizeData);
         addEvent(document.getElementById('tab4link'), 'click', resizeData);
+        addEvent(document.getElementById('tab5link'), 'click', resizeData);
+        addEvent(document.getElementById('tab6link'), 'click', resizeData);
       } else {
         // hide file upload content:
         document.getElementById('tab2').style.display = 'none';
@@ -322,6 +486,7 @@
       addEvent(document.getElementById('clear_filters_btn'), 'click', clearFilters);
       addEvent(document.getElementById('search'), 'submit', applySearch);
       addEvent(document.getElementById('clear_search_btn'), 'click', clearSearch);
+      initColumns();
       resizeData();
     }
 
@@ -331,6 +496,30 @@
       window.setTimeout(function () {
         resizeElementHeight(document.getElementById('data'))
       }, 50);
+    }
+
+    /** Settings **/
+    function initColumns() {
+      //<input type="checkbox" name="lineonoffswitch" class="onoffswitch-checkbox" id="lineonoffswitch" checked>
+      var tbl = document.querySelector('#data > table');
+      var cols = Array.from(tbl.querySelectorAll('col'));
+      cols.forEach(col => {
+        var colName = col.className;
+        var checkbox = document.getElementById(colName + 'onoffswitch');
+        if (checkbox) {
+          col.style.visibility = (checkbox.checked) ? '' : 'collapse';
+          addEvent(checkbox, 'change', toggleColumn);
+        }
+      });
+    }
+
+    function toggleColumn(evt) {
+      var checkbox = evt.target;
+      var colName = checkbox.id.replace('onoffswitch', '');
+      var tbl = document.querySelector('#data > table');
+      var col = tbl.querySelector('col.' + colName);
+      col.style.visibility = (checkbox.checked) ? '' : 'collapse';
+      resizeData();
     }
 
     /** Search **/
@@ -366,8 +555,8 @@
         logTable.search(document.getElementById('q_search').value, columns);
       } else {
         logTable.search(document.getElementById('q_search').value);
-	  }
-	  return false;
+      }
+      return false;
     }
 
     function clearSearch() {
@@ -559,8 +748,9 @@
         var dateValid = dateFilter(itemValues.dateTime);
         return lineInBounds && workerValid && workstationValid && workflowValid && processValid && categoryValid &&
           levelValid && dateValid;
-	  });
-	  return false;
+      });
+      document.getElementById('tab6link').click();
+      return false;
     }
 
     function clearFilters() {
