@@ -333,17 +333,17 @@
         </colgroup>
         <thead>
           <tr>
-            <th class="sort" data-sort="lineNumber">Line</th>
-            <th class="sort" data-sort="worker">Worker</th>
-            <th class="sort" data-sort="workstation">Workstation</th>
-            <th class="sort" data-sort="workflow">Workflow</th>
-            <th class="sort" data-sort="process">Process</th>
-            <th class="sort" data-sort="routine">Routine</th>
-            <th class="sort" data-sort="pnrLocator">Locator</th>
-            <th class="sort" data-sort="category">Category</th>
-            <th class="sort" data-sort="level">Level</th>
-            <th class="sort" data-sort="dateTimeText">Date/Time</th>
-            <th class="sort" data-sort="text">Text</th>
+            <th class="sort lineNumber" data-sort="lineNumber">Line</th>
+            <th class="sort worker" data-sort="worker">Worker</th>
+            <th class="sort workstation" data-sort="workstation">Workstation</th>
+            <th class="sort workflow" data-sort="workflow">Workflow</th>
+            <th class="sort process" data-sort="process">Process</th>
+            <th class="sort routine" data-sort="routine">Routine</th>
+            <th class="sort pnrLocator" data-sort="pnrLocator">Locator</th>
+            <th class="sort category" data-sort="category">Category</th>
+            <th class="sort level" data-sort="level">Level</th>
+            <th class="sort dateTimeText" data-sort="dateTimeText">Date/Time</th>
+            <th class="sort text" data-sort="text">Text</th>
           </tr>
         </thead>
         <tbody class="list">
@@ -379,6 +379,7 @@
     var logTable = new List('logtable', options);
     logTable.on('updated', highlightXml);
     logTable.on('updated', convertDIR);
+    logTable.on('updated', updateColumns);
 
     // GDSX Log handling
     function processTextBox(e) {
@@ -509,8 +510,24 @@
         var colName = col.className;
         var checkbox = document.getElementById(colName + 'onoffswitch');
         if (checkbox) {
-          col.style.visibility = (checkbox.checked) ? '' : 'collapse';
+          // col.style.visibility = (checkbox.checked) ? '' : 'collapse';
+          var displayMode = (checkbox.checked) ? 'table-cell' : 'none';
+          Array.from(tbl.querySelectorAll('.' + colName)).forEach(cell => cell.style.display = displayMode);
           addEvent(checkbox, 'change', toggleColumn);
+        }
+      });
+    }
+
+    function updateColumns() {
+      var tbl = document.querySelector('#data > table');
+      var cols = Array.from(tbl.querySelectorAll('col'));
+      cols.forEach(col => {
+        var colName = col.className;
+        var checkbox = document.getElementById(colName + 'onoffswitch');
+        if (checkbox) {
+          // col.style.visibility = (checkbox.checked) ? '' : 'collapse';
+          var displayMode = (checkbox.checked) ? 'table-cell' : 'none';
+          Array.from(tbl.querySelectorAll('.' + colName)).forEach(cell => cell.style.display = displayMode);
         }
       });
     }
@@ -519,8 +536,10 @@
       var checkbox = evt.target;
       var colName = checkbox.id.replace('onoffswitch', '');
       var tbl = document.querySelector('#data > table');
-      var col = tbl.querySelector('col.' + colName);
-      col.style.visibility = (checkbox.checked) ? '' : 'collapse';
+      // var col = tbl.querySelector('col.' + colName);
+      // col.style.visibility = (checkbox.checked) ? '' : 'collapse';
+      var displayMode = (checkbox.checked) ? 'table-cell' : 'none';
+      Array.from(tbl.querySelectorAll('.' + colName)).forEach(cell => cell.style.display = displayMode);
       resizeData();
     }
 
