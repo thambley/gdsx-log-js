@@ -13,7 +13,7 @@ table.listable {
   background-color: black;
 }
 
-.text {
+td.text {
   white-space: pre;
   font-family: courier new;
 }
