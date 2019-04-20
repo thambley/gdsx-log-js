@@ -621,6 +621,8 @@
       document.getElementById('q_search').value = '';
       columnChoices.removeActiveItems();
       // clearSelected(document.getElementById('q_column'));
+      info.searchColumns = [];
+      info.searchText = '';
       updateInfo();
       logTable.search(); // Show all items in list
     }
