@@ -1,54 +1,64 @@
 /* tables */
 table.listable tr:hover td {
-    background-color:#f2f2f2;
+  background-color: #f2f2f2;
 }
 
-table.listable td, table.listable th {
-	padding:5px;
-	background-color:white;
+table.listable td,
+table.listable th {
+  padding: 5px;
+  background-color: white;
 }
+
 table.listable {
-	background-color:black;
+  background-color: black;
 }
+
 .text {
-	white-space:pre;
-	font-family:courier new;
+  white-space: pre;
+  font-family: courier new;
 }
+
 .pagination li {
-	display:inline-block;
-	padding:5px;
+  display: inline-block;
+  padding: 5px;
 }
+
 .pagination li.active {
-	border: 1px solid black;
-	border-radius: 6px;
+  border: 1px solid black;
+  border-radius: 6px;
 }
-.pagination li a.page{
-	text-decoration: none;
-	font-weight: bold;
-	color: black;
+
+.pagination li a.page {
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
 }
+
 .search {
-	border:solid 1px #ccc;
-	border-radius: 5px;
-	padding:7px 14px;
-	margin-top:10px
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  padding: 7px 14px;
+  margin-top: 10px
 }
 
 table.sortable thead tr .sort {
-	text-align: left;
-	background-image: url(../images/bg.gif);
-	background-repeat: no-repeat;
-	background-position: center right;
-	cursor: pointer;
-	padding-right:20px;
+  text-align: left;
+  background-image: url(../images/bg.gif);
+  background-repeat: no-repeat;
+  background-position: center right;
+  cursor: pointer;
+  padding-right: 20px;
 }
 
 table.sortable thead tr .asc {
-	background-image: url(../images/asc.gif);
+  background-image: url(../images/asc.gif);
 }
+
 table.sortable thead tr .desc {
-	background-image: url(../images/desc.gif);
+  background-image: url(../images/desc.gif);
 }
-table.sortable thead tr .asc, table.sortable thead tr .desc {
-background-color: #8dbdd8;
+
+table.sortable thead tr .asc,
+table.sortable thead tr .desc {
+  background-color: #8dbdd8;
 }

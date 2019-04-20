@@ -1,6 +1,6 @@
 form#filter .filter_form_field {
-    margin-bottom: 10px;
-    clear: both
+  margin-bottom: 10px;
+  clear: both
 }
 
 form#filter input[type=text],
@@ -11,19 +11,19 @@ form#filter input[type=tel],
 form#filter input[type=date],
 form#filter input[type=time],
 form#filter textarea {
-    /* width: calc(80% - 22px);*/
-    border: 1px solid #c9d0d6;
-    border-radius: 3px;
-    font-size: 0.95em;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    outline: none;
-    padding: 8px 10px 7px
+  /* width: calc(80% - 22px);*/
+  border: 1px solid #c9d0d6;
+  border-radius: 3px;
+  font-size: 0.95em;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  outline: none;
+  padding: 8px 10px 7px
 }
 
 form#filter .buttons {
-    margin-top: 15px
+  margin-top: 15px
 }
 
 form#filter select {
-    width: 240px
+  width: 240px
 }

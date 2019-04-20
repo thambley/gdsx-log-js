@@ -1,6 +1,6 @@
 form#search .search_form_field {
-    margin-bottom: 10px;
-    clear: both
+  margin-bottom: 10px;
+  clear: both
 }
 
 form#search input[type=text],
@@ -11,19 +11,19 @@ form#search input[type=tel],
 form#search input[type=date],
 form#search input[type=time],
 form#search textarea {
-    /* width: calc(80% - 22px);*/
-    border: 1px solid #c9d0d6;
-    border-radius: 3px;
-    font-size: 0.95em;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    outline: none;
-    padding: 8px 10px 7px
+  /* width: calc(80% - 22px);*/
+  border: 1px solid #c9d0d6;
+  border-radius: 3px;
+  font-size: 0.95em;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  outline: none;
+  padding: 8px 10px 7px
 }
 
 form#search .buttons {
-    margin-top: 15px
+  margin-top: 15px
 }
 
 form#search select {
-    width: 240px
+  width: 240px
 }
