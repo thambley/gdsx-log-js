@@ -306,7 +306,12 @@
         </form>
       </div>
       <div id="infoview">
-        <div id="info"></div>
+        <div id="info">
+          <div id="infoFile" class="info"><span class="infoLabel">File name: </span><span id="infoFilename"></span></div>
+          <div id="infoSearch" class="info hidden"><span class="infoLabel">Search: </span><span id="infoSearchText"></span></div>
+          <div id="infoSearchColumns" class="info hidden"><span class="infoLabel">In Columns: </span><span id="infoSearchColumnsText"></span></div>
+          <div id="infoFilter" class="info hidden"><span class="infoLabel">Filters: </span><span id="infoFilterText"></span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -383,6 +388,7 @@
     function processTextBox(e) {
       e.preventDefault();
       processLogText(document.getElementById('logtext').value);
+      showInfo();
       return false;
     }
 
@@ -460,6 +466,7 @@
             //Only plain text
             if (!file.type.match('plain') && !file.name.match(/\.log$/)) continue;
             upload_file_name.innerHTML = file.name;
+            info.fileName = file.name;
             var logReader = new FileReader();
             logReader.addEventListener("load", function (event) {
               var textFile = event.target;
@@ -470,6 +477,7 @@
             logReader.readAsText(file);
           }
 
+          showInfo();
         });
         addEvent(document.getElementById('tab1link'), 'click', resizeData);
         addEvent(document.getElementById('tab2link'), 'click', resizeData);
@@ -488,6 +496,7 @@
       addEvent(document.getElementById('search'), 'submit', applySearch);
       addEvent(document.getElementById('clear_search_btn'), 'click', clearSearch);
       initColumns();
+      updateInfo();
       resizeData();
     }
 
@@ -497,6 +506,24 @@
       window.setTimeout(function () {
         resizeElementHeight(document.getElementById('data'))
       }, 50);
+    }
+
+    /** info **/
+    var info = {
+      fileName: 'No file chosen',
+      seachText: '',
+      searchColumns: [],
+      filters: []
+    };
+
+    function showInfo() {
+      updateInfo();
+      document.getElementById('tab6link').click();
+    }
+
+    function updateInfo() {
+      var fileNameDiv = document.getElementById('infoFilename');
+      fileNameDiv.innerText = info.fileName;
     }
 
     /** Settings **/
@@ -575,6 +602,7 @@
       } else {
         logTable.search(document.getElementById('q_search').value);
       }
+      showInfo();
       return false;
     }
 
@@ -768,7 +796,7 @@
         return lineInBounds && workerValid && workstationValid && workflowValid && processValid && categoryValid &&
           levelValid && dateValid;
       });
-      document.getElementById('tab6link').click();
+      showInfo();
       return false;
     }
 

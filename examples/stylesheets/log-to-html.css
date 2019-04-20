@@ -8,6 +8,18 @@ body {
   border: 1px solid white;
 }
 
+.info {
+  display: table-cell;
+}
+
+.hidden {
+  display: none;
+}
+
+.infoLabel {
+  font-weight: bold;
+}
+
 #data {
   clear: both;
   overflow: auto;
