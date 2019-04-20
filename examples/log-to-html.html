@@ -525,25 +525,32 @@
       var fileNameDiv = document.getElementById('infoFilename');
       fileNameDiv.innerText = info.fileName;
       var searchDiv = document.getElementById('infoSearch');
+      var searchColumnsDiv = document.getElementById('infoSearchColumns');
       if (info.searchText.length == 0) {
         searchDiv.classList.add('hidden');
+        searchColumnsDiv.classList.add('hidden');
       } else {
         searchDiv.classList.remove('hidden');
         var searchTextDiv = document.getElementById('infoSearchText');
         searchTextDiv.innerText = info.searchText;
+        searchColumnsDiv.classList.remove('hidden');
+        var searchColumnsTextDiv = document.getElementById('infoSearchColumnsText');
+        if (info.searchColumns.length > 0) {
+          searchColumnsTextDiv.innerText = info.searchColumns.join(', ');
+        } else {
+          searchColumnsTextDiv.innerText = 'All';
+        }
       }
     }
 
     /** Settings **/
     function initColumns() {
-      //<input type="checkbox" name="lineonoffswitch" class="onoffswitch-checkbox" id="lineonoffswitch" checked>
       var tbl = document.querySelector('#data > table');
       var cols = Array.from(tbl.querySelectorAll('col'));
       cols.forEach(col => {
         var colName = col.className;
         var checkbox = document.getElementById(colName + 'onoffswitch');
         if (checkbox) {
-          // col.style.visibility = (checkbox.checked) ? '' : 'collapse';
           var displayMode = (checkbox.checked) ? 'table-cell' : 'none';
           Array.from(tbl.querySelectorAll('.' + colName)).forEach(cell => cell.style.display = displayMode);
           addEvent(checkbox, 'change', toggleColumn);
@@ -558,7 +565,6 @@
         var colName = col.className;
         var checkbox = document.getElementById(colName + 'onoffswitch');
         if (checkbox) {
-          // col.style.visibility = (checkbox.checked) ? '' : 'collapse';
           var displayMode = (checkbox.checked) ? 'table-cell' : 'none';
           Array.from(tbl.querySelectorAll('.' + colName)).forEach(cell => cell.style.display = displayMode);
         }
@@ -569,8 +575,6 @@
       var checkbox = evt.target;
       var colName = checkbox.id.replace('onoffswitch', '');
       var tbl = document.querySelector('#data > table');
-      // var col = tbl.querySelector('col.' + colName);
-      // col.style.visibility = (checkbox.checked) ? '' : 'collapse';
       var displayMode = (checkbox.checked) ? 'table-cell' : 'none';
       Array.from(tbl.querySelectorAll('.' + colName)).forEach(cell => cell.style.display = displayMode);
       resizeData();
@@ -620,7 +624,6 @@
     function clearSearch() {
       document.getElementById('q_search').value = '';
       columnChoices.removeActiveItems();
-      // clearSelected(document.getElementById('q_column'));
       info.searchColumns = [];
       info.searchText = '';
       updateInfo();
