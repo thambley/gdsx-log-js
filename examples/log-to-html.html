@@ -511,7 +511,7 @@
     /** info **/
     var info = {
       fileName: 'No file chosen',
-      seachText: '',
+      searchText: '',
       searchColumns: [],
       filters: []
     };
@@ -524,6 +524,14 @@
     function updateInfo() {
       var fileNameDiv = document.getElementById('infoFilename');
       fileNameDiv.innerText = info.fileName;
+      var searchDiv = document.getElementById('infoSearch');
+      if (info.searchText.length == 0) {
+        searchDiv.classList.add('hidden');
+      } else {
+        searchDiv.classList.remove('hidden');
+        var searchTextDiv = document.getElementById('infoSearchText');
+        searchTextDiv.innerText = info.searchText;
+      }
     }
 
     /** Settings **/
@@ -597,11 +605,14 @@
     function applySearch(e) {
       e.preventDefault();
       var columns = getSelectValues(document.getElementById('q_column'));
+      var searchText = document.getElementById('q_search').value;
       if (columns.length > 0) {
-        logTable.search(document.getElementById('q_search').value, columns);
+        logTable.search(searchText, columns);
       } else {
-        logTable.search(document.getElementById('q_search').value);
+        logTable.search(searchText);
       }
+      info.searchColumns = columns;
+      info.searchText = searchText;
       showInfo();
       return false;
     }
@@ -610,6 +621,7 @@
       document.getElementById('q_search').value = '';
       columnChoices.removeActiveItems();
       // clearSelected(document.getElementById('q_column'));
+      updateInfo();
       logTable.search(); // Show all items in list
     }
 
@@ -817,6 +829,7 @@
       levelChoices.setChoiceByValue('All');
       document.getElementById('q_date_time_gteq').value = '';
       document.getElementById('q_date_time_lteq').value = '';
+      updateInfo();
       logTable.filter();
     }
     /** end filters **/
@@ -833,7 +846,7 @@
       } else if (body && body.clientHeight) {
         height = body.clientHeight;
       }
-      element.style.height = (((height - element.offsetTop) - 10) + "px");
+      element.style.height = (((height - element.offsetTop)) + "px");
     }
 
     // add event cross browser
@@ -848,7 +861,6 @@
         });
       }
     }
-
   </script>
 </body>
 

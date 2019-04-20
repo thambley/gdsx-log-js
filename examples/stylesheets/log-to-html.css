@@ -10,14 +10,16 @@ body {
 
 .info {
   display: table-cell;
+  padding: 5px;
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .infoLabel {
   font-weight: bold;
+  padding: 5px;
 }
 
 #data {
