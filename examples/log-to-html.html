@@ -160,25 +160,21 @@
       </div>
       <div id="settingsview">
         <form id="settings">
-          <h2>Columns to show</h2>
-          <table>
-            <tr>
-              <td>
-                <label for="lineonoffswitch"> Line: </label>
-              </td>
-              <td>
+          <fieldset id="columnstoshow">
+            <legend>Columns to show</legend>
+            <div class="container">
+              <div class="setting item container">
+                <label for="lineonoffswitch" class="item">Line: </label>
                 <div class="onoffswitch">
-                  <input type="checkbox" name="lineNumberonoffswitch" class="onoffswitch-checkbox" id="lineNumberonoffswitch" checked>
-                  <label class="onoffswitch-label" for="lineNumberonoffswitch">
-                    <span class="onoffswitch-inner"></span>
-                    <span class="onoffswitch-switch"></span>
-                  </label>
-                </div>
-              </td>
-              <td>
-                <label for="workeronoffswitch"> Worker: </label>
-              </td>
-              <td>
+                    <input type="checkbox" name="lineNumberonoffswitch" class="onoffswitch-checkbox" id="lineNumberonoffswitch" checked>
+                    <label class="onoffswitch-label" for="lineNumberonoffswitch">
+                      <span class="onoffswitch-inner"></span>
+                      <span class="onoffswitch-switch"></span>
+                    </label>
+                  </div>
+              </div>
+              <div class="setting item container">
+                <label for="workeronoffswitch" class="item">Worker: </label>
                 <div class="onoffswitch">
                   <input type="checkbox" name="workeronoffswitch" class="onoffswitch-checkbox" id="workeronoffswitch">
                   <label class="onoffswitch-label" for="workeronoffswitch">
@@ -186,23 +182,19 @@
                     <span class="onoffswitch-switch"></span>
                   </label>
                 </div>
-              </td>
-              <td>
-                <label for="workstationonoffswitch"> Workstation: </label>
-              </td>
-              <td>
+              </div>
+              <div class="setting item container">
+                <label for="workstationonoffswitch" class="item">Workstation: </label>
                 <div class="onoffswitch">
-                  <input type="checkbox" name="workstationonoffswitch" class="onoffswitch-checkbox" id="workstationonoffswitch">
-                  <label class="onoffswitch-label" for="workstationonoffswitch">
-                    <span class="onoffswitch-inner"></span>
-                    <span class="onoffswitch-switch"></span>
-                  </label>
-                </div>
-              </td>
-              <td>
-                <label for="workflowonoffswitch"> Workflow: </label>
-              </td>
-              <td>
+                    <input type="checkbox" name="workstationonoffswitch" class="onoffswitch-checkbox" id="workstationonoffswitch">
+                    <label class="onoffswitch-label" for="workstationonoffswitch">
+                      <span class="onoffswitch-inner"></span>
+                      <span class="onoffswitch-switch"></span>
+                    </label>
+                  </div>
+              </div>
+              <div class="setting item container">
+                <label for="workflowonoffswitch" class="item">Workflow: </label>
                 <div class="onoffswitch">
                   <input type="checkbox" name="workflowonoffswitch" class="onoffswitch-checkbox" id="workflowonoffswitch" checked>
                   <label class="onoffswitch-label" for="workflowonoffswitch">
@@ -210,13 +202,9 @@
                     <span class="onoffswitch-switch"></span>
                   </label>
                 </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="processonoffswitch"> Process: </label>
-              </td>
-              <td>
+              </div>
+              <div class="setting item container">
+                <label for="processonoffswitch" class="item">Process: </label>
                 <div class="onoffswitch">
                   <input type="checkbox" name="processonoffswitch" class="onoffswitch-checkbox" id="processonoffswitch" checked>
                   <label class="onoffswitch-label" for="processonoffswitch">
@@ -224,11 +212,9 @@
                     <span class="onoffswitch-switch"></span>
                   </label>
                 </div>
-              </td>
-              <td>
-                <label for="routineonoffswitch"> Routine: </label>
-              </td>
-              <td>
+              </div>
+              <div class="setting item container">
+                <label for="routineonoffswitch" class="item">Routine: </label>
                 <div class="onoffswitch">
                   <input type="checkbox" name="routineonoffswitch" class="onoffswitch-checkbox" id="routineonoffswitch" checked>
                   <label class="onoffswitch-label" for="routineonoffswitch">
@@ -236,11 +222,9 @@
                     <span class="onoffswitch-switch"></span>
                   </label>
                 </div>
-              </td>
-              <td>
-                <label for="pnrLocatoronoffswitch"> Locator: </label>
-              </td>
-              <td>
+              </div>
+              <div class="setting item container">
+                <label for="pnrLocatoronoffswitch" class="item">Locator: </label>
                 <div class="onoffswitch">
                   <input type="checkbox" name="pnrLocatoronoffswitch" class="onoffswitch-checkbox" id="pnrLocatoronoffswitch" checked>
                   <label class="onoffswitch-label" for="pnrLocatoronoffswitch">
@@ -248,11 +232,9 @@
                     <span class="onoffswitch-switch"></span>
                   </label>
                 </div>
-              </td>
-              <td>
-                <label for="categoryonoffswitch"> Category: </label>
-              </td>
-              <td>
+              </div>
+              <div class="setting item container">
+                <label for="categoryonoffswitch" class="item">Category: </label>
                 <div class="onoffswitch">
                   <input type="checkbox" name="categoryonoffswitch" class="onoffswitch-checkbox" id="categoryonoffswitch" checked>
                   <label class="onoffswitch-label" for="categoryonoffswitch">
@@ -260,13 +242,9 @@
                     <span class="onoffswitch-switch"></span>
                   </label>
                 </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="levelonoffswitch"> Level: </label>
-              </td>
-              <td>
+              </div>
+              <div class="setting item container">
+                <label for="levelonoffswitch" class="item">Level: </label>
                 <div class="onoffswitch">
                   <input type="checkbox" name="levelonoffswitch" class="onoffswitch-checkbox" id="levelonoffswitch" checked>
                   <label class="onoffswitch-label" for="levelonoffswitch">
@@ -274,11 +252,9 @@
                     <span class="onoffswitch-switch"></span>
                   </label>
                 </div>
-              </td>
-              <td>
-                <label for="dateTimeTextonoffswitch"> Date/Time: </label>
-              </td>
-              <td>
+              </div>
+              <div class="setting item container">
+                <label for="dateTimeTextonoffswitch" class="item">Date/Time: </label>
                 <div class="onoffswitch">
                   <input type="checkbox" name="dateTimeTextonoffswitch" class="onoffswitch-checkbox" id="dateTimeTextonoffswitch" checked>
                   <label class="onoffswitch-label" for="dateTimeTextonoffswitch">
@@ -286,11 +262,9 @@
                     <span class="onoffswitch-switch"></span>
                   </label>
                 </div>
-              </td>
-              <td>
-                <label for="textonoffswitch"> Text: </label>
-              </td>
-              <td>
+              </div>
+              <div class="setting item container">
+                <label for="textonoffswitch" class="item"> Text: </label>
                 <div class="onoffswitch">
                   <input type="checkbox" name="textonoffswitch" class="onoffswitch-checkbox" id="textonoffswitch" checked>
                   <label class="onoffswitch-label" for="textonoffswitch">
@@ -298,11 +272,9 @@
                     <span class="onoffswitch-switch"></span>
                   </label>
                 </div>
-              </td>
-              <td></td>
-              <td></td>
-            </tr>
-          </table>
+              </div>
+            </div>
+          </fieldset>
         </form>
       </div>
       <div id="infoview">
