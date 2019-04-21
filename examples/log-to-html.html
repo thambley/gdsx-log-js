@@ -388,6 +388,7 @@
     function processTextBox(e) {
       e.preventDefault();
       processLogText(document.getElementById('logtext').value);
+      info.fileName = 'Copy/Paste';
       showInfo();
       return false;
     }
@@ -540,6 +541,14 @@
         } else {
           searchColumnsTextDiv.innerText = 'All';
         }
+      }
+      var filterDiv = document.getElementById('infoFilter');
+      if (info.filters.length == 0) {
+        filterDiv.classList.add('hidden');
+      } else {
+        filterDiv.classList.remove('hidden');
+        var filterTextDiv = document.getElementById('infoFilterText');
+        filterTextDiv.innerHTML = info.filters.join(' and ');
       }
     }
 
@@ -734,9 +743,13 @@
       }
     }
 
-    function selectFilter(elementId) {
+    function selectValue(elementId) {
       var selectBox = document.getElementById(elementId);
-      var value = selectBox.options[selectBox.selectedIndex].value;
+      return selectBox.options[selectBox.selectedIndex].value;
+    }
+
+    function selectFilter(elementId) {
+      var value = selectValue(elementId);
       if (value == 'All') {
         return trueFilter;
       } else {
@@ -768,8 +781,16 @@
       }
     }
 
+    function selectFilterText(filters, elementName, elementId) {
+      var value = selectValue(elementId);
+      if (value != 'All') {
+        filters.push(`<b>${elementName}</b> is "${value}"`);
+      }
+    }
+
     function applyFilters(e) {
       e.preventDefault();
+      info.filters = [];
       var lineFilter;
       var dateFilter;
       var lineGreaterThan = getIntegerValue('q_line_number_gteq');
@@ -778,25 +799,37 @@
         lineFilter = trueFilter;
       } else if (lineLessThan == 0) {
         lineFilter = greaterThanFilter(lineGreaterThan);
+        info.filters.push(`<b>Line number</b> is greater than ${lineGreaterThan}`);
       } else if (lineGreaterThan == 0) {
         lineFilter = lessThanFilter(lineLessThan);
+        info.filters.push(`<b>Line number</b> is less than ${lineLessThan}`);
       } else {
         lineFilter = betweenFilter(lineGreaterThan, lineLessThan);
+        info.filters.push(`<b>Line number</b> is between ${lineLessThan} and ${lineGreaterThan}`);
       }
       var workerFilter = selectFilter('q_worker');
+      selectFilterText(info.filters, 'Worker', 'q_worker');
       var workstationFilter = selectFilter('q_workstation');
+      selectFilterText(info.filters, 'Workstation', 'q_workstation');
       var workflowFilter = selectFilter('q_workflow');
+      selectFilterText(info.filters, 'Workflow', 'q_workflow');
       var processFilter = selectFilter('q_process');
+      selectFilterText(info.filters, 'Process', 'q_process');
       var categoryFilter = selectFilter('q_category');
+      selectFilterText(info.filters, 'Category', 'q_category');
       var levelFilter = selectFilter('q_level');
+      selectFilterText(info.filters, 'Level', 'q_level');
       var dateGreaterThan = document.getElementById('q_date_time_gteq').value;
       var dateLessThan = document.getElementById('q_date_time_lteq').value;
       if (dateGreaterThan != '' && dateLessThan != '') {
         dateFilter = betweenFilter(new Date(dateGreaterThan), new Date(dateLessThan));
+        info.filters.push(`<b>Date/Time</b> is between ${dateLessThan} and ${dateGreaterThan}`);
       } else if (dateGreaterThan != '') {
         dateFilter = greaterThanFilter(new Date(dateGreaterThan));
+        info.filters.push(`<b>Date/Time</b> is greater than ${dateGreaterThan}`);
       } else if (dateLessThan != '') {
         dateFilter = lessThanFilter(new Date(dateLessThan));
+        info.filters.push(`<b>Date/Time</b> is less than ${dateLessThan}`);
       } else {
         dateFilter = trueFilter;
       }
@@ -834,6 +867,7 @@
       levelChoices.setChoiceByValue('All');
       document.getElementById('q_date_time_gteq').value = '';
       document.getElementById('q_date_time_lteq').value = '';
+      info.filters = [];
       updateInfo();
       logTable.filter();
     }
