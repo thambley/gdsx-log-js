@@ -27,9 +27,6 @@
   <!--Travel Leaders Content-->
   <script src="../lib/compleat-vendor-debug-parser.js"></script>
   <script src="javascripts/wspan-dir-parser.js"></script>
-  <!-- syntax highligher -->
-  <link rel="stylesheet" href="stylesheets/highlight/default.css">
-  <script src="javascripts/highlight.pack.js"></script>
 </head>
 
 <body>
@@ -352,7 +349,7 @@
     };
     // Init list
     var logTable = new List('logtable', options);
-    logTable.on('updated', highlightXml);
+    logTable.on('updated', formatXml);
     logTable.on('updated', convertDIR);
     logTable.on('updated', updateColumns);
 
@@ -377,32 +374,54 @@
 
     // utility function to process log text
     function processLogText(logText) {
+      logTable.clear();
       if (logText.length > 0) {
         var logArray = compleatVendorDebug.parseLog(logText);
+        const parser = new DOMParser();
+        logArray.forEach(logItem => {
+          if (logItem.text.startsWith("<") && logItem.text.endsWith(">"))
+          {
+            const doc = parser.parseFromString(logItem.text, "application/xml");
+            const errorNode = doc.querySelector("parsererror");
+            if (errorNode) {
+              console.log("error while parsing");
+            } else {
+              logItem.text = logItem.text.replace(/[\u00A0-\u9999<>\&]/g, i => '&#'+i.charCodeAt(0)+';');
+            }
+          }
+        });
+        logTable.add(logArray);
+        buildFilters(logArray);
       }
-      logTable.clear();
-      logTable.add(logArray);
-      buildFilters(logArray);
     }
 
-    function highlightXml() {
+    function formatXml() {
       var textNodes = document.getElementsByClassName('text');
-      var xmlNodes = Array.prototype.filter.call(textNodes, function (node) {
-        return node.childNodes && node.childNodes[0] && node.childNodes[0].nodeType !== Node.TEXT_NODE
-      });
-      xmlNodes.forEach(element => {
-        if (element.childNodes[0].tagName.toLowerCase() !== 'pre') {
-          var pre = document.createElement('pre');
-          var code = document.createElement('code');
-          code.className = 'xml';
-          pre.appendChild(code);
-          var xml = document.createTextNode(prettyXml(element.innerHTML));
-          code.appendChild(xml);
-          element.removeChild(element.childNodes[0]);
-          element.appendChild(pre);
-          hljs.highlightBlock(code);
-        }
-      });
+      var xmlNodes = Array.from(textNodes);
+      if (xmlNodes.length > 0)
+      {
+        const parser = new DOMParser();
+        xmlNodes.forEach(element => {
+          const text = element.innerText || element.textContent;
+          const xmlCode = element.querySelector("code.xml");
+          if (xmlCode == null && text.startsWith("<") && text.endsWith(">")) {
+            const doc = parser.parseFromString(text, "application/xml");
+            const errorNode = doc.querySelector("parsererror");
+            if (errorNode) {
+              console.log("error while parsing");
+            } else {
+              var pre = document.createElement('pre');
+              var code = document.createElement('code');
+              code.className = 'xml';
+              pre.appendChild(code);
+              var xml = document.createTextNode(prettyXml(text));
+              code.appendChild(xml);
+              element.removeChild(element.childNodes[0]);
+              element.appendChild(pre);
+            }
+          }
+        });
+      }
     }
 
     function convertDIR() {
@@ -420,7 +439,6 @@
           code.appendChild(xml);
           element.removeChild(element.childNodes[0]);
           element.appendChild(pre);
-          hljs.highlightBlock(code);
         }
       });
     }
