@@ -409,7 +409,7 @@
               const doc = JSON.parse(text);
               var pre = document.createElement('pre');
               var code = document.createElement('code');
-              code.className = 'json';
+              code.className = 'formatted json';
               pre.appendChild(code);
               var json = document.createTextNode(JSON.stringify(doc, null, 2));
               code.appendChild(json);
@@ -442,7 +442,7 @@
             } else {
               var pre = document.createElement('pre');
               var code = document.createElement('code');
-              code.className = 'xml';
+              code.className = 'formatted xml';
               pre.appendChild(code);
               var xml = document.createTextNode(prettyXml(text));
               code.appendChild(xml);
