@@ -397,6 +397,15 @@
       }
     }
 
+    function moveOriginal(element) {
+      var newParent = document.createElement('div');
+      while (element.hasChildNodes()) {
+        newParent.appendChild(element.firstChild);
+      }
+      newParent.className = 'hidden plaintext'
+      element.appendChild(newParent);
+    }
+
     function formatJson() {
       var textNodes = document.getElementsByClassName('text');
       var jsonNodes = Array.from(textNodes);
@@ -413,7 +422,7 @@
               pre.appendChild(code);
               var json = document.createTextNode(JSON.stringify(doc, null, 2));
               code.appendChild(json);
-              element.removeChild(element.childNodes[0]);
+              moveOriginal(element);
               element.appendChild(pre);
             } catch (e) {
               console.log("error while parsing in formatJson");
@@ -446,7 +455,7 @@
               pre.appendChild(code);
               var xml = document.createTextNode(prettyXml(text));
               code.appendChild(xml);
-              element.removeChild(element.childNodes[0]);
+              moveOriginal(element);
               element.appendChild(pre);
             }
           }
@@ -467,7 +476,7 @@
           var plainXML = DIRTree.toXML();
           var xml = document.createTextNode(plainXML);
           code.appendChild(xml);
-          element.removeChild(element.childNodes[0]);
+          moveOriginal(element);
           element.appendChild(pre);
         }
       });
