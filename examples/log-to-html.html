@@ -368,7 +368,8 @@
 
       var options = {
         indentation: '  ',
-        stripComments: true
+        stripComments: true,
+        collapseContent: true
       };
       return format(xmlText, options);
     }
@@ -382,13 +383,13 @@
         logArray.forEach(logItem => {
           if (logItem.text.startsWith("<") && logItem.text.endsWith(">"))
           {
-            const doc = parser.parseFromString(logItem.text.replaceAll("&", "&amp;"), "application/xml");
+            const doc = parser.parseFromString(logItem.text.replaceAll("&nbsp;", " "), "application/xml");
             const errorNode = doc.querySelector("parsererror");
             if (errorNode) {
               console.log("error while parsing in processLogText");
               console.log(logItem.text);
             } else {
-              logItem.text = logItem.text.replaceAll("&", "&amp;").replace(/[\u00A0-\u9999<>\&]/g, i => '&#'+i.charCodeAt(0)+';');
+              logItem.text = logItem.text.replaceAll("&nbsp;", " ").replace(/[\u00A0-\u9999<>\&]/g, i => '&#'+i.charCodeAt(0)+';');
             }
           }
         });
