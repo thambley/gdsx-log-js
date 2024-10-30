@@ -9,6 +9,8 @@
   <link href="stylesheets/search.css" rel="stylesheet" type="text/css" />
   <link href="stylesheets/filter.css" rel="stylesheet" type="text/css" />
   <link href="stylesheets/onoff.css" rel="stylesheet" type="text/css" />
+  <!--https://codepen.io/dsenneff/pen/ZoLVZW-->
+  <link href="stylesheets/radiotoggle.css" rel="stylesheet" type="text/css" />
   <!--http://www.listjs.com/-->
   <link href="stylesheets/list.css" rel="stylesheet" type="text/css" />
   <script src="javascripts/list.js"></script>
@@ -272,6 +274,15 @@
               </div>
             </div>
           </fieldset>
+          <fieldset id="textviewsettings">
+            <legend>Request/Response Text View</legend>
+            <div class="radioToggle">
+              <input type="radio" name="communicationDisplay" value="native" id="communicationNative" checked="checked" />
+              <label for="communicationNative">Native</label>
+              <input type="radio" name="communicationDisplay" value="xml" id="communicationXml" />
+              <label for="communicationXml">Formatted XML</label>
+            </div>
+          </fieldset>
         </form>
       </div>
       <div id="infoview">
@@ -435,14 +446,30 @@
       }
     }
 
+    // https://stackoverflow.com/a/15839283
+    function getRadioValue(radioName) {
+      var buttons = document.getElementsByName(radioName);
+      var buttonValue;
+      for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i].checked) {
+          buttonValue = buttons[i].value;
+          break;
+        }
+      }
+      return buttonValue;
+    }
+
     function formatXml() {
       var textNodes = document.getElementsByClassName('text');
       var xmlNodes = Array.from(textNodes);
       if (xmlNodes.length > 0) {
+        var communicationDisplayValue = getRadioValue('communicationDisplay');
+        console.log("request/response display: " + communicationDisplayValue);
         const parser = new DOMParser();
         xmlNodes.forEach(element => {
           const text = element.innerText || element.textContent;
           const xmlCode = element.querySelector("code.xml");
+
           if (xmlCode == null && text.startsWith("<") && text.endsWith(">")) {
             const doc = parser.parseFromString(text, "application/xml");
             const errorNode = doc.querySelector("parsererror");
@@ -450,16 +477,46 @@
               console.log("error while parsing in formatXml");
               console.log(text);
             } else {
+              // console.log(doc.firstChild.tagName);
+              var enableNative = (doc.firstChild.tagName == "SabreCommandLLSRQ" || doc.firstChild.tagName == "SabreCommandLLSRS");
               var pre = document.createElement('pre');
               var code = document.createElement('code');
-              code.className = 'formatted xml';
+              if (enableNative && communicationDisplayValue == "native") {
+                code.className = 'formatted xml hidden';
+              } else {
+                code.className = 'formatted xml';
+              }
               pre.appendChild(code);
               var xml = document.createTextNode(prettyXml(text));
               code.appendChild(xml);
               moveOriginal(element);
               element.appendChild(pre);
+
+              if (enableNative) {
+                var div = document.createElement('div');
+                if (communicationDisplayValue == "native") {
+                  div.className = 'native';
+                } else {
+                  div.className = 'native hidden';
+                }
+                var native = document.createTextNode(doc.documentElement.textContent);
+                div.appendChild(native);
+                element.appendChild(div);
+              }
+            }
+          } else if (xmlCode) {
+            const nativeCommunication = element.querySelector("div.native");
+            if (nativeCommunication) {
+              if (communicationDisplayValue == "native") {
+                nativeCommunication.classList.remove('hidden');
+                xmlCode.classList.add('hidden');
+              } else {
+                nativeCommunication.classList.add('hidden');
+                xmlCode.classList.remove('hidden');
+              }
             }
           }
+
         });
       }
     }
@@ -527,6 +584,7 @@
       addEvent(document.getElementById('search'), 'submit', applySearch);
       addEvent(document.getElementById('clear_search_btn'), 'click', clearSearch);
       initColumns();
+      initCommunicationView();
       updateInfo();
       resizeData();
     }
@@ -617,6 +675,17 @@
       var displayMode = (checkbox.checked) ? 'table-cell' : 'none';
       Array.from(tbl.querySelectorAll('.' + colName)).forEach(cell => cell.style.display = displayMode);
       resizeData();
+    }
+
+    function initCommunicationView() {
+      var buttons = document.getElementsByName('communicationDisplay');
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('change', updateCommunicationView);
+      }
+    }
+
+    function updateCommunicationView(evt) {
+      formatXml();
     }
 
     /** Search **/
