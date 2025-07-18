@@ -102,3 +102,13 @@ td.native, div.native {
   background-color: blue;
   color: white;
 }
+
+.contracted {
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
+.expanded {
+  cursor: zoom-out;
+  overflow: auto;
+}
