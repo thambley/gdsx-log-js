@@ -104,11 +104,9 @@ td.native, div.native {
 }
 
 .contracted {
-  cursor: zoom-in;
   overflow: hidden;
 }
 
 .expanded {
-  cursor: zoom-out;
   overflow: auto;
 }
