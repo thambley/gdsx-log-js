@@ -88,6 +88,8 @@
               <option value="worker">Worker</option>
               <option value="workstation">Workstation</option>
               <option value="workflow">Workflow</option>
+              <option value="customer">Customer</option>
+              <option value="businessUnit">Business Unit</option>
               <option value="process">Process</option>
               <option value="routine">Routine</option>
               <option value="pnrLocator">Locator</option>
@@ -203,6 +205,26 @@
                 </div>
               </div>
               <div class="setting item container">
+                <label for="customeronoffswitch" class="item">Customer: </label>
+                <div class="onoffswitch">
+                  <input type="checkbox" name="customeronoffswitch" class="onoffswitch-checkbox" id="customeronoffswitch" checked>
+                  <label class="onoffswitch-label" for="customeronoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="setting item container">
+                <label for="businessUnitonoffswitch" class="item">Business Unit: </label>
+                <div class="onoffswitch">
+                  <input type="checkbox" name="businessUnitonoffswitch" class="onoffswitch-checkbox" id="businessUnitonoffswitch" checked>
+                  <label class="onoffswitch-label" for="businessUnitonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="setting item container">
                 <label for="processonoffswitch" class="item">Process: </label>
                 <div class="onoffswitch">
                   <input type="checkbox" name="processonoffswitch" class="onoffswitch-checkbox" id="processonoffswitch" checked>
@@ -306,6 +328,8 @@
           <col class="worker"/>
           <col class="workstation"/>
           <col class="workflow"/>
+          <col class="customer" />
+          <col class="businessUnit" />
           <col class="process"/>
           <col class="routine"/>
           <col class="pnrLocator"/>
@@ -320,6 +344,8 @@
             <th class="sort worker" data-sort="worker">Worker</th>
             <th class="sort workstation" data-sort="workstation">Workstation</th>
             <th class="sort workflow" data-sort="workflow">Workflow</th>
+            <th class="sort customer" data-sort="customer">Customer</th>
+            <th class="sort businessUnit" data-sort="businessUnit">Business Unit</th>
             <th class="sort process" data-sort="process">Process</th>
             <th class="sort routine" data-sort="routine">Routine</th>
             <th class="sort pnrLocator" data-sort="pnrLocator">Locator</th>
@@ -335,6 +361,8 @@
             <td class="worker"></td>
             <td class="workstation"></td>
             <td class="workflow"></td>
+            <td class="customer"></td>
+            <td class="businessUnit"></td>
             <td class="process"></td>
             <td class="routine"></td>
             <td class="pnrLocator"></td>
@@ -351,7 +379,7 @@
     //list
     var options = {
       valueNames: ['lineNumber', 'worker', 'workstation', 'category', 'level', 'dateTimeText', 'text', 'workflow',
-        'process', 'routine', 'pnrLocator'
+        'process', 'routine', 'pnrLocator', 'customer', 'businessUnit'
       ],
       page: 20,
       plugins: [ListPagination({
