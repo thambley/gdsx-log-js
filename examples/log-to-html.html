@@ -594,7 +594,9 @@
           var levelNodes = element.parentNode.getElementsByClassName('level');
           var levelNodeArray = Array.from(levelNodes);
           if (levelNodeArray[0].innerText == 'Info') {
-            element.parentNode.classList.add('inforow');
+            if (!element.parentNode.classList.contains('inforow')) {
+              element.parentNode.classList.add('inforow');
+            }
           }
         });
       }
