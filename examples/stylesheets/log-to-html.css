@@ -110,3 +110,8 @@ td.native, div.native {
 .expanded {
   overflow: auto;
 }
+/*
+tr.inforow td {
+  color: darkblue;
+}
+*/
