@@ -734,13 +734,17 @@
         var copyButton = tallNode.querySelector("button.copy");
         if (visibleChildNodes.length == 1) {
           var visibleNode = visibleChildNodes[0];
-          if (visibleNode.offsetHeight > 40) {
+          var offsetHeight;
+          if (typeof visibleNode.fullHeight == 'undefined') {
+            offsetHeight = visibleNode.offsetHeight;
+          } else {
+            offsetHeight = visibleNode.fullHeight;
+          }
+          if (offsetHeight > 40) {
             if (typeof visibleNode.fullHeight == 'undefined') {
               visibleNode.fullHeight = visibleNode.offsetHeight;
-              // console.log("1 visible child. Height: " + visibleNode.offsetHeight);
-              // visibleNode.style.position = 'relative';
               if (button) {
-                console.log('button already exists')
+                // console.log('button already exists')
               } else {
                 button = document.createElement("button");
                 button.innerText = "Collapse";
@@ -750,7 +754,7 @@
               }
               toggleFullView(button);
               if (copyButton) {
-                console.log('copy button already exists')
+                // console.log('copy button already exists')
               } else {
                 copyButton = document.createElement("button");
                 copyButton.innerText = "Copy";
@@ -760,15 +764,15 @@
                 copyButton.addEventListener("click", copyButtonClick, true);
               }
             }
-            // button.style.display = 'block';
+            button.style.display = 'inline-block';
+            copyButton.style.display = 'inline-block';
           } else if (typeof visibleNode.fullHeight == 'undefined') {
             if (button) {
               button.style.display = 'none';
+              copyButton.style.display = 'none';
             }
           }
-        } else if (visibleChildNodes.length == 0) {
-          // console.log("0 children.");
-        } else {
+        } else if (visibleChildNodes.length > 1) {
           console.log("More than 1 tall node in hideTallContent");
           for (var n = 0; n < tallNode.children.length; n++) {
             console.log(tallNode.children[n]);
