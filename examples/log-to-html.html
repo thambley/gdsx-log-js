@@ -763,9 +763,15 @@
                 tallNode.appendChild(copyButton);
                 copyButton.addEventListener("click", copyButtonClick, true);
               }
+            } else {
+              button.style.display = 'inline-block';
+              copyButton.style.display = 'inline-block';
+              if (visibleNode.classList.contains('contracted')) {
+                button.innerText = 'Expand';
+              } else {
+                button.innerText = 'Collapse';
+              }
             }
-            button.style.display = 'inline-block';
-            copyButton.style.display = 'inline-block';
           } else if (typeof visibleNode.fullHeight == 'undefined') {
             if (button) {
               button.style.display = 'none';
